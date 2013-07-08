@@ -132,6 +132,22 @@ Have a bug or feature request? [Please open a new issue][linkIssues].
 
 If you have any questions, suggestions or feedbacks, please drop us a line to [api@mapswith.me][linkSupport].
 
+### Under the hood
+
+If you prefer to use API on your own, here are some details about the implementation.
+
+Applications "talk" to each other using URL Scheme. API v1 supports the following parameters to the URL Scheme:
+
+    mapswithme://map?ll=54.32123,12.34562&n=Point%20Name&id=AnyStringOrEncodedUrl&backurl=UrlToCallOnBackButton&appname=TitleToDisplayInNavBar
+
+* **ll** - pin latitude and longitude, comma-separated
+* **n** - pin title
+* **id** - any string you want to receive back in your app, OR alternatively, any valid URL which will be opened on *More Info* button click
+* **backurl** - usually, your unique app scheme to open back your app
+* **appname** - string to display in navigation bar on top of the map in MapsWithMe
+
+Note that you can display as many pins as you want, the only rule is that **ll** parameter comes before **n** and **id** for each point. 
+
 ------------------------------------------------------------------------------------------
 ### API Code is licensed under the BSD 2-Clause License
 
