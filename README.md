@@ -2,21 +2,21 @@
 
 ### Introduction
 
-MapsWithMe offline maps API for iOS (hereinafter referred to as *API*) provides interface for client application to perform next tasks:
+MapsWithMe offline maps API for iOS (hereinafter referred to as *API*) provides an interface for other applications to perform the following tasks:
 
-For version 1 (supported by MapsWithMe 2.4+)
+For API version 1 (supported by MapsWithMe 2.4+)
 * Open [MapsWithMe Application][linkMwm]
 * Check that [MapsWithMe][linkMwm] is installed
-* Show one or more points on offline map of [MapsWithMe][linkMwm] with *Back* button and client app name in the title
-* Come back to the client application:
+* Show one or more points on an offline map of [MapsWithMe][linkMwm] with *Back* button and client app name in the title
+* Return the user back to the client application:
  * after pressing *Back* button on the map
  * after selecting specific point on the map if user asks for more information by pressing *More Info* button in [MapsWithMe][linkMwm]
 * Open any given url or url scheme after selecting specific point on the map if user asks for more information by pressing *More Info* button in [MapsWithMe][linkMwm]
 * Automatically display [*Download MapsWithMe*][linkDownloadMWMDialog] dialog if [MapsWithMe][linkMwm] is not installed.
 
-In general, you can provide one or two way communication between your appication and MapsWithMe.
+In general it is possible to establish a one way or two way communication between MapsWithMe and your app.
 
-Please refer to [sample application][linkSample] for demo.
+Please refer to the [sample application][linkSample] for a demo.
 
 ### Prerequisites
 
