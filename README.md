@@ -138,8 +138,9 @@ If you prefer to use API on your own, here are some details about the implementa
 
 Applications "talk" to each other using URL Scheme. API v1 supports the following parameters to the URL Scheme:
 
-    mapswithme://map?ll=54.32123,12.34562&n=Point%20Name&id=AnyStringOrEncodedUrl&backurl=UrlToCallOnBackButton&appname=TitleToDisplayInNavBar
+    mapswithme://map?v=1&ll=54.32123,12.34562&n=Point%20Name&id=AnyStringOrEncodedUrl&backurl=UrlToCallOnBackButton&appname=TitleToDisplayInNavBar
 
+* **v** - API version, currently *1*
 * **ll** - pin latitude and longitude, comma-separated
 * **n** - pin title
 * **id** - any string you want to receive back in your app, OR alternatively, any valid URL which will be opened on *More Info* button click
@@ -147,6 +148,10 @@ Applications "talk" to each other using URL Scheme. API v1 supports the followin
 * **appname** - string to display in navigation bar on top of the map in MapsWithMe
 
 Note that you can display as many pins as you want, the only rule is that **ll** parameter comes before **n** and **id** for each point. 
+
+When user selects a pin, your app is called like this:
+
+    YourAppUniqueUrlScheme://pin?ll=lat,lon&n=PinName&id=PinId
 
 ------------------------------------------------------------------------------------------
 ### API Code is licensed under the BSD 2-Clause License
@@ -162,7 +167,7 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 [linkMwm]: http://mapswith.me/ "MapsWithMe - offline Maps of the World"
-[linkSample]: https://github.com/mapswithme/api-ios/capitals-example "Sample Application"
+[linkSample]: https://itunes.apple.com/app/id670496494?mt=8 "Sample Application"
 [linkRepo]: https://github.com/mapswithme/api-ios/ "GitHub Repository"
 [linkAddUrlScheme]: https://raw.github.com/mapswithme/api-ios/site-resources/add_custom_url_scheme.png "How to add url scheme in XCode"
 [linkDownloadMWMDialog]: https://raw.github.com/mapswithme/api-ios/site-resources/download_mwm_dialog.png "Donwload MapsWithMe Dialog"
