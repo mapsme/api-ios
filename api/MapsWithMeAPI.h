@@ -64,5 +64,6 @@
 + (BOOL) showPin:(MWMPin *)pin;
 // Displays any number of pins
 + (BOOL) showPins:(NSArray *)pins;
++ (void) showMapsWithMeIsNotInstalledDialog;
 
 @end
