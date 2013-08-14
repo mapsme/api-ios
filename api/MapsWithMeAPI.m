@@ -188,8 +188,8 @@ static NSString * MWMUrlScheme = @"mapswithme://";
     {
       for (NSString * scheme in [dict objectForKey:@"CFBundleURLSchemes"])
       {
-        if ([scheme rangeOfString:@"mapswithme" options:NSCaseInsensitiveSearch].location != NSNotFound)
-          return scheme;
+        // We use the first scheme in this list, you can change this behavior if needed
+        return scheme;
       }
     }
   }
