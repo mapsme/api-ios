@@ -35,6 +35,8 @@ If you want to get results of API calls, please add unique URL scheme to your ap
 
 *capitals-example* folder contains [sample application][linkSample] which demonstrates part of API features.
 
+*NOTE: If you are using Automatic References Counting (ARC) in your project, you can use [this solution][linkFixARC] or simply fix code by yourself.*
+
 ### API Calls Overview and HOW TO
 
 * All methods are static for *MWMApi* class, *BOOL* methods return *NO* if call is failed.
@@ -115,6 +117,8 @@ Example:
       }
     }
 
+Note, that you can simply check that *sourceApplication* contains *com.mapswithme.* substring to detect that your app is opened from MapsWithMe.
+
 #### Check that MapsWithMe is installed
 
 Returns NO if MapsWithMe is not installed or outdated version doesn't support API calls:
@@ -175,3 +179,4 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 [linkSupport]: mailto:api@mapswith.me "MapsWithMe Support Contact"
 [linkAppleCustomUrlSchemes]: http://developer.apple.com/library/ios/#DOCUMENTATION/iPhone/Conceptual/iPhoneOSProgrammingGuide/AdvancedAppTricks/AdvancedAppTricks.html#//apple_ref/doc/uid/TP40007072-CH7-SW50 "Custom URL Scheme Apple documentation"
 [linkAppleDelegate]: http://developer.apple.com/library/ios/documentation/uikit/reference/UIApplicationDelegate_Protocol/Reference/Reference.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:openURL:sourceApplication:annotation: "AppDelegate Handle custom URL Schemes"
+[linkFixARC]: http://stackoverflow.com/a/6658549/1209392 "How to compile non-ARC code in ARC projects"
