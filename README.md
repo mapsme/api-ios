@@ -128,6 +128,10 @@ Returns NO if MapsWithMe is not installed or outdated version doesn't support AP
 With this method you can check that user needs to install MapsWithMe and display your custom UI.
 Alternatively, you can do nothing and use built-in dialog which will offer users to install MapsWithMe.
 
+### Set value if you want to open pin URL on balloon click (Available in 2.4.5)
+
+    + (void) setOpenUrlOnBalloonClick:(BOOL)value;
+
 ### [Sample Code][linkSample]
 
 ### Support
@@ -150,6 +154,7 @@ Applications "talk" to each other using URL Scheme. API v1 supports the followin
 * **id** - any string you want to receive back in your app, OR alternatively, any valid URL which will be opened on *More Info* button click
 * **backurl** - usually, your unique app scheme to open back your app
 * **appname** - string to display in navigation bar on top of the map in MapsWithMe
+* **balloonAction** - pass openUrlOnBalloonClick as a parameter, if you want to open pin url on balloon click(Usually pin url opens when "Show more info" button is pressed). (Available in 2.4.5)
 
 Note that you can display as many pins as you want, the only rule is that **ll** parameter comes before **n** and **id** for each point. 
 
