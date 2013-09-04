@@ -31,6 +31,7 @@
 #define MAPSWITHME_API_VERSION 1
 
 static NSString * MWMUrlScheme = @"mapswithme://";
+static BOOL openUrlOnBalloonClick = NO;
 
 @implementation MWMPin
 
@@ -173,6 +174,9 @@ static NSString * MWMUrlScheme = @"mapswithme://";
     }
   }
 
+  if (openUrlOnBalloonClick)
+    [str appendString:@"&balloonAction=openUrlOnBalloonClick"];
+
   NSURL * url = [[NSURL alloc] initWithString:str];
   [str release];
   BOOL const result = [[UIApplication sharedApplication] openURL:url];
@@ -240,6 +244,11 @@ static NSString * mapsWithMeIsNotInstalledPage =
   navController.navigationBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:navController action:@selector(onCloseButtonClicked:)];
 
   [[[UIApplication sharedApplication] delegate].window.rootViewController presentModalViewController:navController animated:YES];
+}
+
++(void) setOpenUrlOnBalloonClick:(BOOL)value
+{
+  openUrlOnBalloonClick = value;
 }
 
 @end
