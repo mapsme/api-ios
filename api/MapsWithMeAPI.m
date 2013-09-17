@@ -78,6 +78,16 @@ static BOOL openUrlOnBalloonClick = NO;
 
 @implementation MWMApi
 
+// Escape special chars with percent encoding
++ (NSString *) percentEncode:(NSString *)str
+{
+  CFStringRef cfStr = (CFStringRef)str;
+  CFStringRef cfEncodedStr = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, cfStr, NULL, CFSTR("&?/:="), kCFStringEncodingUTF8);
+  NSString * encodedStr = [[(NSString *)cfEncodedStr retain] autorelease];
+  CFRelease(cfEncodedStr);
+  return encodedStr;
+}
+
 + (BOOL) isMapsWithMeUrl:(NSURL *)url
 {
   NSString * appScheme = [MWMApi detectBackUrlScheme];
@@ -156,11 +166,11 @@ static BOOL openUrlOnBalloonClick = NO;
 
   NSString * appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
   NSMutableString * str = [[NSMutableString alloc] initWithFormat:@"%@map?v=%d&appname=%@&", MWMUrlScheme, MAPSWITHME_API_VERSION,
-                           [appName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                           [MWMApi percentEncode:appName]];
 
   NSString * backUrlScheme = [MWMApi detectBackUrlScheme];
   if (backUrlScheme)
-    [str appendFormat:@"backurl=%@&", [backUrlScheme stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    [str appendFormat:@"backurl=%@&", [MWMApi percentEncode:backUrlScheme]];
 
   for (MWMPin * point in pins)
   {
@@ -168,9 +178,9 @@ static BOOL openUrlOnBalloonClick = NO;
     @autoreleasepool
     {
       if (point.title)
-        [str appendFormat:@"n=%@&", [point.title stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [str appendFormat:@"n=%@&", [MWMApi percentEncode:point.title]];
       if (point.idOrUrl)
-        [str appendFormat:@"id=%@&", [point.idOrUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [str appendFormat:@"id=%@&", [MWMApi percentEncode:point.idOrUrl]];
     }
   }
 
@@ -219,9 +229,10 @@ static NSString * mapsWithMeIsNotInstalledPage =
 "</style>" \
 "</head>" \
 "<body>" \
-"<div class='description'><a href='http://mapswith.me' target='_blank' class='mwm'>MapsWithMe</a> app should be installed to view the map.</div>" \
-"<a href='http://mapswith.me/app?api' class='lite button shadow'>Download&nbsp;MapsWithMe&nbsp;Lite&nbsp;(free)</a>" \
+"<div class='description'>Offline maps are required to proceed. We have partnered with <a href='http://mapswith.me' target='_blank' class='mwm'>MapsWithMe</a> to provide you with offline maps of the entire world.</div>" \
+"<div class='description'>To continue please download the app:</div>" \
 "<a href='http://mapswith.me/get?api' class='pro button shadow'>Download&nbsp;MapsWithMe&nbsp;Pro</a>" \
+"<a href='http://mapswith.me/app?api' class='lite button shadow'>Download&nbsp;MapsWithMe&nbsp;Lite&nbsp;(free)</a>" \
 "</body>" \
 "</html>";
 
@@ -241,7 +252,7 @@ static NSString * mapsWithMeIsNotInstalledPage =
   webController.view = webView;
   webController.title = @"Install MapsWithMe";
   MWMNavigationController * navController = [[[MWMNavigationController alloc] initWithRootViewController:webController] autorelease];
-  navController.navigationBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:navController action:@selector(onCloseButtonClicked:)];
+  navController.navigationBar.topItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:navController action:@selector(onCloseButtonClicked:)] autorelease];
 
   [[[UIApplication sharedApplication] delegate].window.rootViewController presentModalViewController:navController animated:YES];
 }
