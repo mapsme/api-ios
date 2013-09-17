@@ -219,9 +219,10 @@ static NSString * mapsWithMeIsNotInstalledPage =
 "</style>" \
 "</head>" \
 "<body>" \
-"<div class='description'><a href='http://mapswith.me' target='_blank' class='mwm'>MapsWithMe</a> app should be installed to view the map.</div>" \
-"<a href='http://mapswith.me/app?api' class='lite button shadow'>Download&nbsp;MapsWithMe&nbsp;Lite&nbsp;(free)</a>" \
+"<div class='description'>Offline maps are required to proceed. We have partnered with <a href='http://mapswith.me' target='_blank' class='mwm'>MapsWithMe</a> to provide you with offline maps of the entire world.</div>" \
+"<div class='description'>To continue please download the app:</div>" \
 "<a href='http://mapswith.me/get?api' class='pro button shadow'>Download&nbsp;MapsWithMe&nbsp;Pro</a>" \
+"<a href='http://mapswith.me/app?api' class='lite button shadow'>Download&nbsp;MapsWithMe&nbsp;Lite&nbsp;(free)</a>" \
 "</body>" \
 "</html>";
 
