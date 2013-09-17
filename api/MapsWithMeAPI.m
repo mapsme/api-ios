@@ -242,7 +242,7 @@ static NSString * mapsWithMeIsNotInstalledPage =
   webController.view = webView;
   webController.title = @"Install MapsWithMe";
   MWMNavigationController * navController = [[[MWMNavigationController alloc] initWithRootViewController:webController] autorelease];
-  navController.navigationBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:navController action:@selector(onCloseButtonClicked:)];
+  navController.navigationBar.topItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:navController action:@selector(onCloseButtonClicked:)] autorelease];
 
   [[[UIApplication sharedApplication] delegate].window.rootViewController presentModalViewController:navController animated:YES];
 }
