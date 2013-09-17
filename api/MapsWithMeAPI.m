@@ -78,6 +78,16 @@ static BOOL openUrlOnBalloonClick = NO;
 
 @implementation MWMApi
 
+// Escape special chars with percent encoding
++ (NSString *) percentEncode:(NSString *)str
+{
+  CFStringRef cfStr = (CFStringRef)str;
+  CFStringRef cfEncodedStr = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, cfStr, NULL, CFSTR("&?/:="), kCFStringEncodingUTF8);
+  NSString * encodedStr = [[(NSString *)cfEncodedStr retain] autorelease];
+  CFRelease(cfEncodedStr);
+  return encodedStr;
+}
+
 + (BOOL) isMapsWithMeUrl:(NSURL *)url
 {
   NSString * appScheme = [MWMApi detectBackUrlScheme];
@@ -156,11 +166,11 @@ static BOOL openUrlOnBalloonClick = NO;
 
   NSString * appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
   NSMutableString * str = [[NSMutableString alloc] initWithFormat:@"%@map?v=%d&appname=%@&", MWMUrlScheme, MAPSWITHME_API_VERSION,
-                           [appName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                           [MWMApi percentEncode:appName]];
 
   NSString * backUrlScheme = [MWMApi detectBackUrlScheme];
   if (backUrlScheme)
-    [str appendFormat:@"backurl=%@&", [backUrlScheme stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    [str appendFormat:@"backurl=%@&", [MWMApi percentEncode:backUrlScheme]];
 
   for (MWMPin * point in pins)
   {
@@ -168,9 +178,9 @@ static BOOL openUrlOnBalloonClick = NO;
     @autoreleasepool
     {
       if (point.title)
-        [str appendFormat:@"n=%@&", [point.title stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [str appendFormat:@"n=%@&", [MWMApi percentEncode:point.title]];
       if (point.idOrUrl)
-        [str appendFormat:@"id=%@&", [point.idOrUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [str appendFormat:@"id=%@&", [MWMApi percentEncode:point.idOrUrl]];
     }
   }
 
