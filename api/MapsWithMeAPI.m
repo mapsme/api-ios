@@ -111,7 +111,7 @@ static BOOL openUrlOnBalloonClick = NO;
         NSString * key = [values objectAtIndex:0];
         if ([key isEqualToString:@"ll"])
         {
-          NSArray * coords = [param componentsSeparatedByString:@","];
+          NSArray * coords = [[values objectAtIndex:1] componentsSeparatedByString:@","];
           if (coords.count == 2)
           {
             pin.lat = [[NSDecimalNumber decimalNumberWithString:[coords objectAtIndex:0]] doubleValue];
