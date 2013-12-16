@@ -47,7 +47,7 @@ If you want to get results of API calls, please add unique URL scheme to your ap
 
 Simply opens MapsWithMe app:
 
-    + (BOOL) showMap;
+    + (BOOL)showMap;
     
 Example:
 
@@ -57,11 +57,11 @@ Example:
 
 Displays given point on a map:
 
-    + (BOOL) showLat:(double)lat lon:(double)lon title:(NSString *)title and:(NSString *)idOrUrl;
+    + (BOOL)showLat:(double)lat lon:(double)lon title:(NSString *)title and:(NSString *)idOrUrl;
 
 The same as above but using pin wrapper:
 
-    + (BOOL) showPin:(MWMPin *)pin;
+    + (BOOL)showPin:(MWMPin *)pin;
 
 Pin wrapper is a simple helper to wrap pins displayed on the map:
 
@@ -70,7 +70,7 @@ Pin wrapper is a simple helper to wrap pins displayed on the map:
       @property (nonatomic, assign) double lon;
       @property (nonatomic, retain) NSString * title;
       @property (nonatomic, retain) NSString * idOrUrl;
-      - (id) initWithLat:(double)lat lon:(double)lon title:(NSString *)title and:(NSString *)idOrUrl;
+      - (id)initWithLat:(double)lat lon:(double)lon title:(NSString *)title and:(NSString *)idOrUrl;
     @end
 
 Example:
@@ -86,7 +86,7 @@ Example:
 
 #### Show any number of pins on the map
 
-    + (BOOL) showPins:(NSArray *)pins;
+    + (BOOL)showPins:(NSArray *)pins;
 
 #### Receiving results of API calls
 
@@ -95,11 +95,11 @@ Here are helper methods to obtain API call results:
 
 Returns YES if url is received from MapsWithMe and can be parsed:
 
-    + (BOOL) isMapsWithMeUrl:(NSURL *)url;
+    + (BOOL)isMapsWithMeUrl:(NSURL *)url;
 
 Returns nil if user didn't select any pin and simply pressed *Back* button:
 
-    + (MWMPin *) pinFromUrl:(NSURL *)url;
+    + (MWMPin *)pinFromUrl:(NSURL *)url;
 
 Example:
 
@@ -123,14 +123,14 @@ Note, that you can simply check that *sourceApplication* contains *com.mapswithm
 
 Returns NO if MapsWithMe is not installed or outdated version doesn't support API calls:
 
-    + (BOOL) isApiSupported;
+    + (BOOL)isApiSupported;
 
 With this method you can check that user needs to install MapsWithMe and display your custom UI.
 Alternatively, you can do nothing and use built-in dialog which will offer users to install MapsWithMe.
 
 ### Set value if you want to open pin URL on balloon click (Available in 2.4.5)
 
-    + (void) setOpenUrlOnBalloonClick:(BOOL)value;
+    + (void)setOpenUrlOnBalloonClick:(BOOL)value;
 
 ### [Sample Code][linkSample]
 
