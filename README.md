@@ -20,7 +20,7 @@ Please refer to the [sample application][linkSample] for a demo.
 
 ### Prerequisites
 
-* Your application must target at least *iOS version 4.3*
+* Your application must target at least *iOS version 5.0*
 * For two way communication, you should add unique [URL scheme][linkAppleCustomUrlSchemes] to your app (see below)
 
 ### Integration
