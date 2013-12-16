@@ -27,41 +27,30 @@
  ******************************************************************************/
 
 #import "CityDetailViewController.h"
-#import "City.h"
 
 #import "MapsWithMeAPI.h"
 
 @interface CityDetailViewController ()
+
 @property (strong, nonatomic) UIPopoverController * masterPopoverController;
 - (void)configureView;
+
 @end
 
 
 @implementation CityDetailViewController
 
-- (NSString *)urlEncode:(NSString *)str
-{
-  return [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)str, NULL, CFSTR("!$&'()*+,-./:;=?@_~"), kCFStringEncodingUTF8) autorelease];
-}
-
 - (void)showCapitalOnTheMap:(BOOL)withLink
 {
-  City const * city = &CAPITALS[_cityIndex];
   NSString * pinId;
   if (withLink)
-    pinId = [NSString stringWithFormat:@"http://en.wikipedia.org/wiki/%@", [self urlEncode:city->name]];
+    pinId = [NSString stringWithFormat:@"http://en.wikipedia.org/wiki/%@", [self.city[@"name"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
   else
-    pinId = [NSString stringWithFormat:@"%ld", _cityIndex];
-  [MWMApi showLat:city->lat lon:city->lon title:city->name andId:pinId];
+    pinId = [NSString stringWithFormat:@"%i", _cityIndex];
+  [MWMApi showLat:[self.city[@"lat"] doubleValue] lon:[self.city[@"lon"] doubleValue] title:self.city[@"name"] andId:pinId];
 }
 
-- (void)dealloc
-{
-  self.masterPopoverController = nil;
-  [super dealloc];
-}
-
-- (void)setCityIndex:(size_t)newCityIndex
+- (void)setCityIndex:(NSInteger)newCityIndex
 {
   if (_cityIndex != newCityIndex)
   {
@@ -70,13 +59,13 @@
     [self configureView];
   }
 
-  if (self.masterPopoverController != nil)
+  if (self.masterPopoverController)
     [self.masterPopoverController dismissPopoverAnimated:YES];
 }
 
 - (void)configureView
 {
-  self.title = CAPITALS[_cityIndex].name;
+  self.title = self.city[@"name"];
   [self.tableView reloadData];
 }
 
@@ -106,7 +95,7 @@
   {
     if (indexPath.section == 0)
     {
-      cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId] autorelease];
+      cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
       cell.selectionStyle = UITableViewCellSelectionStyleNone;
       switch (indexPath.row)
       {
@@ -120,7 +109,7 @@
     }
     else
     {
-      cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId] autorelease];
+      cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
       cell.textLabel.textAlignment = UITextAlignmentCenter;
       if (indexPath.section == 1)
         cell.textLabel.text = @"Show map and come back";
@@ -131,14 +120,13 @@
 
   if (indexPath.section == 0)
   {
-    City const * city = &CAPITALS[_cityIndex];
     switch (indexPath.row)
     {
-      case 0: cell.detailTextLabel.text = [NSString stringWithFormat:@"%lf", city->lat]; break;
-      case 1: cell.detailTextLabel.text = [NSString stringWithFormat:@"%lf", city->lon]; break;
-      case 2: cell.detailTextLabel.text = city->countryCode; break;
-      case 3: cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", city->population]; break;
-      case 4: cell.detailTextLabel.text = city->timeZone; break;
+      case 0: cell.detailTextLabel.text = [self.city[@"lat"] stringValue]; break;
+      case 1: cell.detailTextLabel.text = [self.city[@"lon"] stringValue]; break;
+      case 2: cell.detailTextLabel.text = self.city[@"countryCode"]; break;
+      case 3: cell.detailTextLabel.text = [self.city[@"population"] stringValue]; break;
+      case 4: cell.detailTextLabel.text = self.city[@"timeZone"]; break;
       default: break;
     }
   }

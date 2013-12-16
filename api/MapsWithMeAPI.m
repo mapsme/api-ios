@@ -57,13 +57,6 @@ static BOOL openUrlOnBalloonClick = NO;
   return self;
 }
 
-- (void)dealloc
-{
-  self.title = nil;
-  self.idOrUrl = nil;
-  [super dealloc];
-}
-
 @end
 
 // Utility class to automatically handle "MapsWithMe is not installed" situations
@@ -97,7 +90,7 @@ static BOOL openUrlOnBalloonClick = NO;
   MWMPin * pin = nil;
   if ([url.host isEqualToString:@"pin"])
   {
-    pin = [[[MWMPin alloc] init] autorelease];
+    pin = [[MWMPin alloc] init];
     for (NSString * param in [url.query componentsSeparatedByString:@"&"])
     {
       NSArray * values = [param componentsSeparatedByString:@"="];
@@ -140,7 +133,7 @@ static BOOL openUrlOnBalloonClick = NO;
 
 + (BOOL)showLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl
 {
-  MWMPin * pin = [[[MWMPin alloc] initWithLat:lat lon:lon title:title andId:idOrUrl] autorelease];
+  MWMPin * pin = [[MWMPin alloc] initWithLat:lat lon:lon title:title andId:idOrUrl];
   return [MWMApi showPin:pin];
 }
 
@@ -183,9 +176,7 @@ static BOOL openUrlOnBalloonClick = NO;
     [str appendString:@"&balloonAction=openUrlOnBalloonClick"];
 
   NSURL * url = [NSURL URLWithString:str];
-  [str release];
   BOOL const result = [[UIApplication sharedApplication] openURL:url];
-  [url release];
   return result;
 }
 
@@ -237,17 +228,17 @@ static NSString * mapsWithMeIsNotInstalledPage =
 
 + (void)showMapsWithMeIsNotInstalledDialog
 {
-  UIWebView * webView = [[[UIWebView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]] autorelease];
+  UIWebView * webView = [[UIWebView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
   // check that we have Internet connection and display fresh online page if possible
   if (gethostbyname("mapswith.me"))
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://mapswith.me/api_mwm_not_installed"]]];
   else
     [webView loadHTMLString:mapsWithMeIsNotInstalledPage baseURL:[NSURL URLWithString:@"http://mapswith.me/"]];
-  UIViewController * webController = [[[UIViewController alloc] init] autorelease];
+  UIViewController * webController = [[UIViewController alloc] init];
   webController.view = webView;
   webController.title = @"Install MapsWithMe";
-  MWMNavigationController * navController = [[[MWMNavigationController alloc] initWithRootViewController:webController] autorelease];
-  navController.navigationBar.topItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:navController action:@selector(onCloseButtonClicked:)] autorelease];
+  MWMNavigationController * navController = [[MWMNavigationController alloc] initWithRootViewController:webController];
+  navController.navigationBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:navController action:@selector(onCloseButtonClicked:)];
 
   [[[UIApplication sharedApplication] delegate].window.rootViewController presentModalViewController:navController animated:YES];
 }

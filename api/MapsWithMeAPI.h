@@ -44,6 +44,7 @@
 /// it will be opened from MapsWithMe after selecting "More Details..." for the pin
 @property (nonatomic, retain) NSString * idOrUrl;
 - (id)initWithLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl;
+
 @end
 
 
