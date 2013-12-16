@@ -75,23 +75,13 @@ static BOOL openUrlOnBalloonClick = NO;
 
 - (void)onCloseButtonClicked:(id)sender
 {
-  [self dismissModalViewControllerAnimated:YES];
+  [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
 
 
 @implementation MWMApi
-
-// Escape special chars with percent encoding
-+ (NSString *)percentEncode:(NSString *)str
-{
-  CFStringRef cfStr = (CFStringRef)str;
-  CFStringRef cfEncodedStr = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, cfStr, NULL, CFSTR("&?/:="), kCFStringEncodingUTF8);
-  NSString * encodedStr = [[(NSString *)cfEncodedStr retain] autorelease];
-  CFRelease(cfEncodedStr);
-  return encodedStr;
-}
 
 + (BOOL)isMapsWithMeUrl:(NSURL *)url
 {
@@ -111,22 +101,22 @@ static BOOL openUrlOnBalloonClick = NO;
     for (NSString * param in [url.query componentsSeparatedByString:@"&"])
     {
       NSArray * values = [param componentsSeparatedByString:@"="];
-      if (values.count == 2)
+      if ([values count] == 2)
       {
-        NSString * key = [values objectAtIndex:0];
+        NSString * key = values[0];
         if ([key isEqualToString:@"ll"])
         {
-          NSArray * coords = [[values objectAtIndex:1] componentsSeparatedByString:@","];
-          if (coords.count == 2)
+          NSArray * coords = [values[1] componentsSeparatedByString:@","];
+          if ([coords count] == 2)
           {
-            pin.lat = [[NSDecimalNumber decimalNumberWithString:[coords objectAtIndex:0]] doubleValue];
-            pin.lon = [[NSDecimalNumber decimalNumberWithString:[coords objectAtIndex:1]] doubleValue];
+            pin.lat = [[NSDecimalNumber decimalNumberWithString:coords[0]] doubleValue];
+            pin.lon = [[NSDecimalNumber decimalNumberWithString:coords[1]] doubleValue];
           }
         }
         else if ([key isEqualToString:@"n"])
-          pin.title = [[values objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+          pin.title = [values[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         else if ([key isEqualToString:@"id"])
-          pin.idOrUrl = [[values objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+          pin.idOrUrl = [values[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         else
           NSLog(@"Unsupported url parameters: %@", values);
       }
@@ -156,7 +146,7 @@ static BOOL openUrlOnBalloonClick = NO;
 
 + (BOOL)showPin:(MWMPin *)pin
 {
-  return [MWMApi showPins:[NSArray arrayWithObject:pin]];
+  return [MWMApi showPins:@[pin]];
 }
 
 + (BOOL)showPins:(NSArray *)pins
@@ -171,11 +161,11 @@ static BOOL openUrlOnBalloonClick = NO;
 
   NSString * appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
   NSMutableString * str = [[NSMutableString alloc] initWithFormat:@"%@map?v=%d&appname=%@&", MWMUrlScheme, MAPSWITHME_API_VERSION,
-                           [MWMApi percentEncode:appName]];
+                           [appName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 
   NSString * backUrlScheme = [MWMApi detectBackUrlScheme];
   if (backUrlScheme)
-    [str appendFormat:@"backurl=%@&", [MWMApi percentEncode:backUrlScheme]];
+    [str appendFormat:@"backurl=%@&", [backUrlScheme stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 
   for (MWMPin * point in pins)
   {
@@ -183,16 +173,16 @@ static BOOL openUrlOnBalloonClick = NO;
     @autoreleasepool
     {
       if (point.title)
-        [str appendFormat:@"n=%@&", [MWMApi percentEncode:point.title]];
+        [str appendFormat:@"n=%@&", [point.title stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
       if (point.idOrUrl)
-        [str appendFormat:@"id=%@&", [MWMApi percentEncode:point.idOrUrl]];
+        [str appendFormat:@"id=%@&", [point.idOrUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     }
   }
 
   if (openUrlOnBalloonClick)
     [str appendString:@"&balloonAction=openUrlOnBalloonClick"];
 
-  NSURL * url = [[NSURL alloc] initWithString:str];
+  NSURL * url = [NSURL URLWithString:str];
   [str release];
   BOOL const result = [[UIApplication sharedApplication] openURL:url];
   [url release];
@@ -203,9 +193,9 @@ static BOOL openUrlOnBalloonClick = NO;
 {
   for (NSDictionary * dict in [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"])
   {
-    if ([[dict objectForKey:@"CFBundleURLName"] rangeOfString:@"mapswithme" options:NSCaseInsensitiveSearch].location != NSNotFound)
+    if ([dict[@"CFBundleURLName"] rangeOfString:@"mapswithme" options:NSCaseInsensitiveSearch].location != NSNotFound)
     {
-      for (NSString * scheme in [dict objectForKey:@"CFBundleURLSchemes"])
+      for (NSString * scheme in dict[@"CFBundleURLSchemes"])
       {
         // We use the first scheme in this list, you can change this behavior if needed
         return scheme;
