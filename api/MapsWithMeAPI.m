@@ -240,7 +240,11 @@ static NSString * mapsWithMeIsNotInstalledPage =
   MWMNavigationController * navController = [[MWMNavigationController alloc] initWithRootViewController:webController];
   navController.navigationBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:navController action:@selector(onCloseButtonClicked:)];
 
-  [[[UIApplication sharedApplication] delegate].window.rootViewController presentModalViewController:navController animated:YES];
+  UIWindow * window = [[UIApplication sharedApplication].windows firstObject];
+  if ([window.subviews count] == 2)
+    [[window.subviews lastObject] removeFromSuperview];
+
+  [window.rootViewController presentModalViewController:navController animated:YES];
 }
 
 + (void)setOpenUrlOnBalloonClick:(BOOL)value
