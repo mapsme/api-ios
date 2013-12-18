@@ -28,7 +28,7 @@
 
 #import "MapsWithMeAPI.h"
 
-#define MAPSWITHME_API_VERSION 1
+#define MAPSWITHME_API_VERSION 1.1
 
 static NSString * MWMUrlScheme = @"mapswithme://";
 static BOOL openUrlOnBalloonClick = NO;
@@ -128,7 +128,7 @@ static BOOL openUrlOnBalloonClick = NO;
 
 + (BOOL)showMap
 {
-  return [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[MWMUrlScheme stringByAppendingFormat:@"map?v=%d", MAPSWITHME_API_VERSION]]];
+  return [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[MWMUrlScheme stringByAppendingFormat:@"map?v=%f", MAPSWITHME_API_VERSION]]];
 }
 
 + (BOOL)showLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl
@@ -153,7 +153,7 @@ static BOOL openUrlOnBalloonClick = NO;
   }
 
   NSString * appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
-  NSMutableString * str = [[NSMutableString alloc] initWithFormat:@"%@map?v=%d&appname=%@&", MWMUrlScheme, MAPSWITHME_API_VERSION,
+  NSMutableString * str = [[NSMutableString alloc] initWithFormat:@"%@map?v=%f&appname=%@&", MWMUrlScheme, MAPSWITHME_API_VERSION,
                            [appName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 
   NSString * backUrlScheme = [MWMApi detectBackUrlScheme];
