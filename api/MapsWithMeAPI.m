@@ -60,11 +60,41 @@ static BOOL openUrlOnBalloonClick = NO;
 @end
 
 // Utility class to automatically handle "MapsWithMe is not installed" situations
-@interface MWMNavigationController : UINavigationController
+@interface MWMNViewController : UIViewController <UIWebViewDelegate>
 
 @end
 
-@implementation MWMNavigationController
+@implementation MWMNViewController
+
+// HTML page for users who didn't install MapsWithMe
+static NSString * mapsWithMeIsNotInstalledPage =
+@"<html>" \
+"<head>" \
+"<title>Please install MapsWithMe - offline maps of the World</title>" \
+"<meta name='viewport' content='width=device-width, initial-scale=1.0'/>" \
+"<meta charset='UTF-8'/>" \
+"<style type='text/css'>" \
+"body { font-family: Roboto,Helvetica; background-color:#fafafa; text-align: center;}" \
+".description { text-align: center; font-size: 0.85em; margin-bottom: 1em; }" \
+".button { -moz-border-radius: 20px; -webkit-border-radius: 20px; -khtml-border-radius: 20px; border-radius: 20px; padding: 10px; text-decoration: none; display:inline-block; margin: 0.5em; }" \
+".shadow { -moz-box-shadow: 3px 3px 5px 0 #444; -webkit-box-shadow: 3px 3px 5px 0 #444; box-shadow: 3px 3px 5px 0 #444; }" \
+".lite { color: white; background-color: #333; }" \
+".pro  { color: white; background-color: green; }" \
+".mwm { color: green; text-decoration: none; }" \
+"</style>" \
+"</head>" \
+"<body>" \
+"<div class='description'>Offline maps are required to proceed. We have partnered with <a href='http://mapswith.me' target='_blank' class='mwm'>MapsWithMe</a> to provide you with offline maps of the entire world.</div>" \
+"<div class='description'>To continue please download the app:</div>" \
+"<a href='http://mapswith.me/get?api' class='pro button shadow'>Download&nbsp;MapsWithMe&nbsp;Pro</a>" \
+"<a href='http://mapswith.me/app?api' class='lite button shadow'>Download&nbsp;MapsWithMe&nbsp;Lite&nbsp;(free)</a>" \
+"</body>" \
+"</html>";
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+  [(UIWebView *)self.view loadHTMLString:mapsWithMeIsNotInstalledPage baseURL:[NSURL URLWithString:@"http://mapswith.me/"]];
+}
 
 - (void)onCloseButtonClicked:(id)sender
 {
@@ -197,48 +227,17 @@ static BOOL openUrlOnBalloonClick = NO;
   return nil;
 }
 
-// HTML page for users who didn't install MapsWithMe
-static NSString * mapsWithMeIsNotInstalledPage =
-@"<html>" \
-"<head>" \
-"<title>Please install MapsWithMe - offline maps of the World</title>" \
-"<meta name='viewport' content='width=device-width, initial-scale=1.0'/>" \
-"<meta charset='UTF-8'/>" \
-"<style type='text/css'>" \
-"body { font-family: Roboto,Helvetica; background-color:#fafafa; text-align: center;}" \
-".description { text-align: center; font-size: 0.85em; margin-bottom: 1em; }" \
-".button { -moz-border-radius: 20px; -webkit-border-radius: 20px; -khtml-border-radius: 20px; border-radius: 20px; padding: 10px; text-decoration: none; display:inline-block; margin: 0.5em; }" \
-".shadow { -moz-box-shadow: 3px 3px 5px 0 #444; -webkit-box-shadow: 3px 3px 5px 0 #444; box-shadow: 3px 3px 5px 0 #444; }" \
-".lite { color: white; background-color: #333; }" \
-".pro  { color: white; background-color: green; }" \
-".mwm { color: green; text-decoration: none; }" \
-"</style>" \
-"</head>" \
-"<body>" \
-"<div class='description'>Offline maps are required to proceed. We have partnered with <a href='http://mapswith.me' target='_blank' class='mwm'>MapsWithMe</a> to provide you with offline maps of the entire world.</div>" \
-"<div class='description'>To continue please download the app:</div>" \
-"<a href='http://mapswith.me/get?api' class='pro button shadow'>Download&nbsp;MapsWithMe&nbsp;Pro</a>" \
-"<a href='http://mapswith.me/app?api' class='lite button shadow'>Download&nbsp;MapsWithMe&nbsp;Lite&nbsp;(free)</a>" \
-"</body>" \
-"</html>";
-
-
-// For gethostbyname below
-#include <netdb.h>
-
 + (void)showMapsWithMeIsNotInstalledDialog
 {
   UIWebView * webView = [[UIWebView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
   // check that we have Internet connection and display fresh online page if possible
-  if (gethostbyname("mapswith.me"))
-    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://mapswith.me/api_mwm_not_installed"]]];
-  else
-    [webView loadHTMLString:mapsWithMeIsNotInstalledPage baseURL:[NSURL URLWithString:@"http://mapswith.me/"]];
-  UIViewController * webController = [[UIViewController alloc] init];
+  [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://mapswith.me/api_mwm_not_installed"]]];
+  MWMNViewController * webController = [[MWMNViewController alloc] init];
+  webView.delegate = webController;
   webController.view = webView;
   webController.title = @"Install MapsWithMe";
-  MWMNavigationController * navController = [[MWMNavigationController alloc] initWithRootViewController:webController];
-  navController.navigationBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:navController action:@selector(onCloseButtonClicked:)];
+  UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:webController];
+  navController.navigationBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:webController action:@selector(onCloseButtonClicked:)];
 
   UIWindow * window = [[UIApplication sharedApplication].windows firstObject];
   if ([window.subviews count] == 2)
