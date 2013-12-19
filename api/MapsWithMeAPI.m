@@ -240,9 +240,6 @@ static NSString * mapsWithMeIsNotInstalledPage =
   navController.navigationBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:webController action:@selector(onCloseButtonClicked:)];
 
   UIWindow * window = [[UIApplication sharedApplication].windows firstObject];
-  if ([window.subviews count] == 2)
-    [[window.subviews lastObject] removeFromSuperview];
-
   [window.rootViewController presentModalViewController:navController animated:YES];
 }
 

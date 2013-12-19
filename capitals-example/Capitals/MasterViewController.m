@@ -68,7 +68,10 @@
     MWMPin * pin = [[MWMPin alloc] initWithLat:[city[@"lat"] doubleValue] lon:[city[@"lon"] doubleValue] title:city[@"name"] andId:pinId];
     [array addObject:pin];
   }
-
+  // Your should hide any top view objects like UIPopoverController before calling +showPins:
+  // If user does not installed MapsWithMe app, a popup dialog will be shown
+  [self.detailViewController.masterPopoverController dismissPopoverAnimated:YES];
+  
   [MWMApi showPins:array];
 }
 

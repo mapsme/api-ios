@@ -32,5 +32,6 @@
 
 @property (nonatomic, assign) NSInteger cityIndex;
 @property (strong, nonatomic) NSDictionary * city;
+@property (strong, nonatomic) UIPopoverController * masterPopoverController;
 
 @end
