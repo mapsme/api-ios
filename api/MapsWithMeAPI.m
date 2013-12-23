@@ -106,6 +106,11 @@ static NSString * mapsWithMeIsNotInstalledPage =
 
 @implementation MWMApi
 
++ (NSString *)urlEncode:(NSString *)str
+{
+  return (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)str, NULL, CFSTR("!$&'()*+,-./:;=?@_~"), kCFStringEncodingUTF8);
+}
+
 + (BOOL)isMapsWithMeUrl:(NSURL *)url
 {
   NSString * appScheme = [MWMApi detectBackUrlScheme];
@@ -184,11 +189,11 @@ static NSString * mapsWithMeIsNotInstalledPage =
 
   NSString * appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
   NSMutableString * str = [[NSMutableString alloc] initWithFormat:@"%@map?v=%f&appname=%@&", MWMUrlScheme, MAPSWITHME_API_VERSION,
-                           [appName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                           [self urlEncode:appName]];
 
   NSString * backUrlScheme = [MWMApi detectBackUrlScheme];
   if (backUrlScheme)
-    [str appendFormat:@"backurl=%@&", [backUrlScheme stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    [str appendFormat:@"backurl=%@&", [self urlEncode:backUrlScheme]];
 
   for (MWMPin * point in pins)
   {
@@ -196,9 +201,9 @@ static NSString * mapsWithMeIsNotInstalledPage =
     @autoreleasepool
     {
       if (point.title)
-        [str appendFormat:@"n=%@&", [point.title stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [str appendFormat:@"n=%@&", [self urlEncode:point.title]];
       if (point.idOrUrl)
-        [str appendFormat:@"id=%@&", [point.idOrUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [str appendFormat:@"id=%@&", [self urlEncode:point.idOrUrl]];
     }
   }
 

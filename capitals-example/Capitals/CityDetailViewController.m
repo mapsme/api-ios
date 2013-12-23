@@ -39,11 +39,16 @@
 
 @implementation CityDetailViewController
 
+- (NSString *)urlEncode:(NSString *)str
+{
+  return (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)str, NULL, CFSTR("!$&'()*+,-./:;=?@_~"), kCFStringEncodingUTF8);
+}
+
 - (void)showCapitalOnTheMap:(BOOL)withLink
 {
   NSString * pinId;
   if (withLink)
-    pinId = [NSString stringWithFormat:@"http://en.wikipedia.org/wiki/%@", [self.city[@"name"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    pinId = [NSString stringWithFormat:@"http://en.wikipedia.org/wiki/%@", [self urlEncode:self.city[@"name"]]];
   else
     pinId = [NSString stringWithFormat:@"%i", _cityIndex];
   [MWMApi showLat:[self.city[@"lat"] doubleValue] lon:[self.city[@"lon"] doubleValue] title:self.city[@"name"] andId:pinId];
