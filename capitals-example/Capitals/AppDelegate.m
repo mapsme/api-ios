@@ -43,14 +43,14 @@
     MWMPin * pin = [MWMApi pinFromUrl:url];
     if (pin)
     {
-      size_t const cityId = [pin.idOrUrl integerValue];
+      NSInteger const cityId = [pin.idOrUrl integerValue];
       // display selected page based on passed id
-      if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+      if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
       {
         [self.navigationController popToRootViewControllerAnimated:NO];
-        MasterViewController * masterVC = [self.navigationController.viewControllers objectAtIndex:0];
+        MasterViewController * masterVC = self.navigationController.viewControllers[0];
         if (!masterVC.detailViewController)
-          masterVC.detailViewController = [[[CityDetailViewController alloc] initWithNibName:@"CityDetailViewController" bundle:nil] autorelease];
+          masterVC.detailViewController = [[CityDetailViewController alloc] initWithNibName:@"CityDetailViewController" bundle:nil];
         masterVC.detailViewController.cityIndex = cityId;
         [masterVC.navigationController pushViewController:masterVC.detailViewController animated:YES];
       }
@@ -65,35 +65,27 @@
   return NO;
 }
 
-- (void)dealloc
-{
-  self.window = nil;
-  self.navigationController = nil;
-  self.splitViewController = nil;
-  [super dealloc];
-}
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
 
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+  if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
   {
-    MasterViewController * masterViewController = [[[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil] autorelease];
-    self.navigationController = [[[UINavigationController alloc] initWithRootViewController:masterViewController] autorelease];
+    MasterViewController * masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
     self.window.rootViewController = self.navigationController;
   }
   else
   {
-    MasterViewController * masterViewController = [[[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil] autorelease];
-    UINavigationController * masterNavigationController = [[[UINavigationController alloc] initWithRootViewController:masterViewController] autorelease];
+    MasterViewController * masterViewController = [[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil];
+    UINavigationController * masterNavigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
 
-    CityDetailViewController * detailViewController = [[[CityDetailViewController alloc] initWithNibName:@"CityDetailViewController" bundle:nil] autorelease];
-    UINavigationController * detailNavigationController = [[[UINavigationController alloc] initWithRootViewController:detailViewController] autorelease];
+    CityDetailViewController * detailViewController = [[CityDetailViewController alloc] initWithNibName:@"CityDetailViewController" bundle:nil];
+    UINavigationController * detailNavigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
 
     masterViewController.detailViewController = detailViewController;
 
-    self.splitViewController = [[[UISplitViewController alloc] init] autorelease];
+    self.splitViewController = [[UISplitViewController alloc] init];
     self.splitViewController.delegate = detailViewController;
     self.splitViewController.viewControllers = @[masterNavigationController, detailNavigationController];
 

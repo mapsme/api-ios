@@ -30,6 +30,8 @@
 
 @interface CityDetailViewController : UITableViewController <UISplitViewControllerDelegate>
 
-@property (nonatomic, assign) size_t cityIndex;
+@property (nonatomic, assign) NSInteger cityIndex;
+@property (strong, nonatomic) NSDictionary * city;
+@property (strong, nonatomic) UIPopoverController * masterPopoverController;
 
 @end

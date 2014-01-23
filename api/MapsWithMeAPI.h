@@ -28,45 +28,47 @@
 
 #import <Foundation/Foundation.h>
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_4_3
-  #error "MapsWithMe supports iOS >= 4.3 only"
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_5_0
+  #error "MapsWithMe supports iOS >= 5.0 only"
 #endif
 
 // Wrapper for a pin on a map
 @interface MWMPin : NSObject
-// [required] pin latitude and longitude
+/// [required] pin latitude
 @property (nonatomic, assign) double lat;
+/// [required] pin longitude
 @property (nonatomic, assign) double lon;
-// [optional] pin title
+/// [optional] pin title
 @property (nonatomic, retain) NSString * title;
-// [optional] passed back to the app when pin is clicked, OR, if it's a valid url,
-// it will be opened from MapsWithMe after selecting "More Details..." for the pin
+/// [optional] passed back to the app when pin is clicked, OR, if it's a valid url,
+/// it will be opened from MapsWithMe after selecting "More Details..." for the pin
 @property (nonatomic, retain) NSString * idOrUrl;
-- (id) initWithLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl;
+- (id)initWithLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl;
+
 @end
 
 
 // MapsWithMe API interface
 @interface MWMApi : NSObject
 
-// returns YES if url is received from MapsWithMe and can be parsed
-+ (BOOL) isMapsWithMeUrl:(NSURL *)url;
-// returns nil if user didn't select any pin and simply pressed "Back" button
-+ (MWMPin *) pinFromUrl:(NSURL *)url;
-// returns NO if MapsWithMe is not installed or outdated version doesn't support API calls
-+ (BOOL) isApiSupported;
-// Simply opens MapsWithMe app
-+ (BOOL) showMap;
-// Displays given point on a map, title and id are optional
-// If id contains valid url, it will be opened from MapsWithMe after selecting "More Details..." for the pin
-+ (BOOL) showLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl;
-// The same as above but using pin wrapper
-+ (BOOL) showPin:(MWMPin *)pin;
-// Displays any number of pins
-+ (BOOL) showPins:(NSArray *)pins;
+/// returns YES if url is received from MapsWithMe and can be parsed
++ (BOOL)isMapsWithMeUrl:(NSURL *)url;
+/// returns nil if user didn't select any pin and simply pressed "Back" button
++ (MWMPin *)pinFromUrl:(NSURL *)url;
+/// returns NO if MapsWithMe is not installed or outdated version doesn't support API calls
++ (BOOL)isApiSupported;
+/// Simply opens MapsWithMe app
++ (BOOL)showMap;
+/// Displays given point on a map, title and id are optional.
+/// If id contains valid url, it will be opened from MapsWithMe after selecting "More Details..." for the pin
++ (BOOL)showLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl;
+/// The same as above but using pin wrapper
++ (BOOL)showPin:(MWMPin *)pin;
+/// Displays any number of pins
++ (BOOL)showPins:(NSArray *)pins;
 //
-+ (void) showMapsWithMeIsNotInstalledDialog;
-// Set value = YES if you want to open pin URL on balloon click, default value is NO
-+(void) setOpenUrlOnBalloonClick:(BOOL)value;
++ (void)showMapsWithMeIsNotInstalledDialog;
+/// Set value = YES if you want to open pin URL on balloon click, default value is NO
++ (void)setOpenUrlOnBalloonClick:(BOOL)value;
 
 @end

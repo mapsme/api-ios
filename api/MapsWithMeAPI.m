@@ -28,14 +28,14 @@
 
 #import "MapsWithMeAPI.h"
 
-#define MAPSWITHME_API_VERSION 1
+#define MAPSWITHME_API_VERSION 1.1
 
 static NSString * MWMUrlScheme = @"mapswithme://";
 static BOOL openUrlOnBalloonClick = NO;
 
 @implementation MWMPin
 
-- (id) init
+- (id)init
 {
   if ((self = [super init]))
   {
@@ -45,7 +45,7 @@ static BOOL openUrlOnBalloonClick = NO;
   return self;
 }
 
-- (id) initWithLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl
+- (id)initWithLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl
 {
   if ((self = [super init]))
   {
@@ -57,159 +57,14 @@ static BOOL openUrlOnBalloonClick = NO;
   return self;
 }
 
-- (void)dealloc
-{
-  self.title = nil;
-  self.idOrUrl = nil;
-  [super dealloc];
-}
 @end
 
 // Utility class to automatically handle "MapsWithMe is not installed" situations
-@interface MWMNavigationController : UINavigationController
-@end
-@implementation MWMNavigationController
-- (void)onCloseButtonClicked:(id)sender
-{
-  [self dismissModalViewControllerAnimated:YES];
-}
+@interface MWMNViewController : UIViewController <UIWebViewDelegate>
+
 @end
 
-
-@implementation MWMApi
-
-// Escape special chars with percent encoding
-+ (NSString *) percentEncode:(NSString *)str
-{
-  CFStringRef cfStr = (CFStringRef)str;
-  CFStringRef cfEncodedStr = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, cfStr, NULL, CFSTR("&?/:="), kCFStringEncodingUTF8);
-  NSString * encodedStr = [[(NSString *)cfEncodedStr retain] autorelease];
-  CFRelease(cfEncodedStr);
-  return encodedStr;
-}
-
-+ (BOOL) isMapsWithMeUrl:(NSURL *)url
-{
-  NSString * appScheme = [MWMApi detectBackUrlScheme];
-  return appScheme && [url.scheme isEqualToString:appScheme];
-}
-
-+ (MWMPin *) pinFromUrl:(NSURL *)url
-{
-  if (![MWMApi isMapsWithMeUrl:url])
-    return nil;
-
-  MWMPin * pin = nil;
-  if ([url.host isEqualToString:@"pin"])
-  {
-    pin = [[[MWMPin alloc] init] autorelease];
-    for (NSString * param in [url.query componentsSeparatedByString:@"&"])
-    {
-      NSArray * values = [param componentsSeparatedByString:@"="];
-      if (values.count == 2)
-      {
-        NSString * key = [values objectAtIndex:0];
-        if ([key isEqualToString:@"ll"])
-        {
-          NSArray * coords = [[values objectAtIndex:1] componentsSeparatedByString:@","];
-          if (coords.count == 2)
-          {
-            pin.lat = [[NSDecimalNumber decimalNumberWithString:[coords objectAtIndex:0]] doubleValue];
-            pin.lon = [[NSDecimalNumber decimalNumberWithString:[coords objectAtIndex:1]] doubleValue];
-          }
-        }
-        else if ([key isEqualToString:@"n"])
-          pin.title = [[values objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        else if ([key isEqualToString:@"id"])
-          pin.idOrUrl = [[values objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        else
-          NSLog(@"Unsupported url parameters: %@", values);
-      }
-    }
-    // do not accept invalid coordinates
-    if (pin.lat > 90. || pin.lat < -90. || pin.lon > 180. || pin.lon < -180.)
-      pin = nil;
-  }
-  return pin;
-}
-
-+ (BOOL) isApiSupported
-{
-  return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:MWMUrlScheme]];
-}
-
-+ (BOOL) showMap
-{
-  return [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[MWMUrlScheme stringByAppendingFormat:@"map?v=%d", MAPSWITHME_API_VERSION]]];
-}
-
-+ (BOOL) showLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl
-{
-  MWMPin * pin = [[[MWMPin alloc] initWithLat:lat lon:lon title:title andId:idOrUrl] autorelease];
-  return [MWMApi showPin:pin];
-}
-
-+ (BOOL) showPin:(MWMPin *)pin
-{
-  return [MWMApi showPins:[NSArray arrayWithObject:pin]];
-}
-
-+ (BOOL) showPins:(NSArray *)pins
-{
-  // Automatic check that MapsWithMe is installed
-  if (![MWMApi isApiSupported])
-  {
-    // Display dialog with link to the app
-    [MWMApi showMapsWithMeIsNotInstalledDialog];
-    return NO;
-  }
-
-  NSString * appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
-  NSMutableString * str = [[NSMutableString alloc] initWithFormat:@"%@map?v=%d&appname=%@&", MWMUrlScheme, MAPSWITHME_API_VERSION,
-                           [MWMApi percentEncode:appName]];
-
-  NSString * backUrlScheme = [MWMApi detectBackUrlScheme];
-  if (backUrlScheme)
-    [str appendFormat:@"backurl=%@&", [MWMApi percentEncode:backUrlScheme]];
-
-  for (MWMPin * point in pins)
-  {
-    [str appendFormat:@"ll=%f,%f&", point.lat, point.lon];
-    @autoreleasepool
-    {
-      if (point.title)
-        [str appendFormat:@"n=%@&", [MWMApi percentEncode:point.title]];
-      if (point.idOrUrl)
-        [str appendFormat:@"id=%@&", [MWMApi percentEncode:point.idOrUrl]];
-    }
-  }
-
-  if (openUrlOnBalloonClick)
-    [str appendString:@"&balloonAction=openUrlOnBalloonClick"];
-
-  NSURL * url = [[NSURL alloc] initWithString:str];
-  [str release];
-  BOOL const result = [[UIApplication sharedApplication] openURL:url];
-  [url release];
-  return result;
-}
-
-+ (NSString *) detectBackUrlScheme
-{
-  for (NSDictionary * dict in [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"])
-  {
-    if ([[dict objectForKey:@"CFBundleURLName"] rangeOfString:@"mapswithme" options:NSCaseInsensitiveSearch].location != NSNotFound)
-    {
-      for (NSString * scheme in [dict objectForKey:@"CFBundleURLSchemes"])
-      {
-        // We use the first scheme in this list, you can change this behavior if needed
-        return scheme;
-      }
-    }
-  }
-  NSLog(@"WARNING: No com.mapswithme.maps url schemes are added in the Info.plist file. Please add them if you want API users to come back to your app.");
-  return nil;
-}
+@implementation MWMNViewController
 
 // HTML page for users who didn't install MapsWithMe
 static NSString * mapsWithMeIsNotInstalledPage =
@@ -236,28 +91,164 @@ static NSString * mapsWithMeIsNotInstalledPage =
 "</body>" \
 "</html>";
 
-
-// For gethostbyname below
-#include <netdb.h>
-
-+ (void) showMapsWithMeIsNotInstalledDialog
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-  UIWebView * webView = [[[UIWebView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]] autorelease];
-  // check that we have Internet connection and display fresh online page if possible
-  if (gethostbyname("mapswith.me"))
-    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://mapswith.me/api_mwm_not_installed"]]];
-  else
-    [webView loadHTMLString:mapsWithMeIsNotInstalledPage baseURL:[NSURL URLWithString:@"http://mapswith.me/"]];
-  UIViewController * webController = [[[UIViewController alloc] init] autorelease];
-  webController.view = webView;
-  webController.title = @"Install MapsWithMe";
-  MWMNavigationController * navController = [[[MWMNavigationController alloc] initWithRootViewController:webController] autorelease];
-  navController.navigationBar.topItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:navController action:@selector(onCloseButtonClicked:)] autorelease];
-
-  [[[UIApplication sharedApplication] delegate].window.rootViewController presentModalViewController:navController animated:YES];
+  [(UIWebView *)self.view loadHTMLString:mapsWithMeIsNotInstalledPage baseURL:[NSURL URLWithString:@"http://mapswith.me/"]];
 }
 
-+(void) setOpenUrlOnBalloonClick:(BOOL)value
+- (void)onCloseButtonClicked:(id)sender
+{
+  [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+@end
+
+
+@implementation MWMApi
+
++ (NSString *)urlEncode:(NSString *)str
+{
+  return (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)str, NULL, CFSTR("!$&'()*+,-./:;=?@_~"), kCFStringEncodingUTF8);
+}
+
++ (BOOL)isMapsWithMeUrl:(NSURL *)url
+{
+  NSString * appScheme = [MWMApi detectBackUrlScheme];
+  return appScheme && [url.scheme isEqualToString:appScheme];
+}
+
++ (MWMPin *)pinFromUrl:(NSURL *)url
+{
+  if (![MWMApi isMapsWithMeUrl:url])
+    return nil;
+
+  MWMPin * pin = nil;
+  if ([url.host isEqualToString:@"pin"])
+  {
+    pin = [[MWMPin alloc] init];
+    for (NSString * param in [url.query componentsSeparatedByString:@"&"])
+    {
+      NSArray * values = [param componentsSeparatedByString:@"="];
+      if ([values count] == 2)
+      {
+        NSString * key = values[0];
+        if ([key isEqualToString:@"ll"])
+        {
+          NSArray * coords = [values[1] componentsSeparatedByString:@","];
+          if ([coords count] == 2)
+          {
+            pin.lat = [[NSDecimalNumber decimalNumberWithString:coords[0]] doubleValue];
+            pin.lon = [[NSDecimalNumber decimalNumberWithString:coords[1]] doubleValue];
+          }
+        }
+        else if ([key isEqualToString:@"n"])
+          pin.title = [values[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        else if ([key isEqualToString:@"id"])
+          pin.idOrUrl = [values[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        else
+          NSLog(@"Unsupported url parameters: %@", values);
+      }
+    }
+    // do not accept invalid coordinates
+    if (pin.lat > 90. || pin.lat < -90. || pin.lon > 180. || pin.lon < -180.)
+      pin = nil;
+  }
+  return pin;
+}
+
++ (BOOL)isApiSupported
+{
+  return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:MWMUrlScheme]];
+}
+
++ (BOOL)showMap
+{
+  return [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[MWMUrlScheme stringByAppendingFormat:@"map?v=%f", MAPSWITHME_API_VERSION]]];
+}
+
++ (BOOL)showLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl
+{
+  MWMPin * pin = [[MWMPin alloc] initWithLat:lat lon:lon title:title andId:idOrUrl];
+  return [MWMApi showPin:pin];
+}
+
++ (BOOL)showPin:(MWMPin *)pin
+{
+  return [MWMApi showPins:@[pin]];
+}
+
++ (BOOL)showPins:(NSArray *)pins
+{
+  // Automatic check that MapsWithMe is installed
+  if (![MWMApi isApiSupported])
+  {
+    // Display dialog with link to the app
+    [MWMApi showMapsWithMeIsNotInstalledDialog];
+    return NO;
+  }
+
+  NSString * appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+  NSMutableString * str = [[NSMutableString alloc] initWithFormat:@"%@map?v=%f&appname=%@&", MWMUrlScheme, MAPSWITHME_API_VERSION,
+                           [self urlEncode:appName]];
+
+  NSString * backUrlScheme = [MWMApi detectBackUrlScheme];
+  if (backUrlScheme)
+    [str appendFormat:@"backurl=%@&", [self urlEncode:backUrlScheme]];
+
+  for (MWMPin * point in pins)
+  {
+    [str appendFormat:@"ll=%f,%f&", point.lat, point.lon];
+    @autoreleasepool
+    {
+      if (point.title)
+        [str appendFormat:@"n=%@&", [self urlEncode:point.title]];
+      if (point.idOrUrl)
+        [str appendFormat:@"id=%@&", [self urlEncode:point.idOrUrl]];
+    }
+  }
+
+  if (openUrlOnBalloonClick)
+    [str appendString:@"&balloonAction=openUrlOnBalloonClick"];
+
+  NSURL * url = [NSURL URLWithString:str];
+  BOOL const result = [[UIApplication sharedApplication] openURL:url];
+  return result;
+}
+
++ (NSString *)detectBackUrlScheme
+{
+  for (NSDictionary * dict in [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"])
+  {
+    if ([dict[@"CFBundleURLName"] rangeOfString:@"mapswithme" options:NSCaseInsensitiveSearch].location != NSNotFound)
+    {
+      for (NSString * scheme in dict[@"CFBundleURLSchemes"])
+      {
+        // We use the first scheme in this list, you can change this behavior if needed
+        return scheme;
+      }
+    }
+  }
+  NSLog(@"WARNING: No com.mapswithme.maps url schemes are added in the Info.plist file. Please add them if you want API users to come back to your app.");
+  return nil;
+}
+
++ (void)showMapsWithMeIsNotInstalledDialog
+{
+  UIWebView * webView = [[UIWebView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
+  // check that we have Internet connection and display fresh online page if possible
+  [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://mapswith.me/api_mwm_not_installed"]]];
+  MWMNViewController * webController = [[MWMNViewController alloc] init];
+  webView.delegate = webController;
+  webController.view = webView;
+  webController.title = @"Install MapsWithMe";
+  UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:webController];
+  navController.navigationBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:webController action:@selector(onCloseButtonClicked:)];
+
+  UIWindow * window = [[UIApplication sharedApplication].windows firstObject];
+  [window.rootViewController presentModalViewController:navController animated:YES];
+}
+
++ (void)setOpenUrlOnBalloonClick:(BOOL)value
 {
   openUrlOnBalloonClick = value;
 }

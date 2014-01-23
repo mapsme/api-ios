@@ -28,29 +28,51 @@
 
 #import "MasterViewController.h"
 #import "CityDetailViewController.h"
-#import "City.h"
 
 #import "MapsWithMeAPI.h"
 
+@interface MasterViewController ()
+
+@property (strong, nonatomic) NSArray * capitals;
+
+@end
+
 @implementation MasterViewController
+
+- (CityDetailViewController *)detailViewController
+{
+  if (!_detailViewController)
+      _detailViewController = [[CityDetailViewController alloc] initWithNibName:@"CityDetailViewController" bundle:nil];
+  return _detailViewController;
+}
+
+- (NSArray *)capitals
+{
+  if (!_capitals)
+  {
+    NSString * path = [[NSBundle mainBundle] pathForResource:@"capitals" ofType:@"plist"];
+    _capitals = [NSArray arrayWithContentsOfFile:path];
+  }
+  return _capitals;
+}
 
 - (void)showAllCitiesOnTheMap:(id)sender
 {
-  size_t const capitalsCount = sizeof(CAPITALS)/sizeof(CAPITALS[0]);
+  NSMutableArray * array = [[NSMutableArray alloc] initWithCapacity:[self.capitals count]];
 
-  NSMutableArray * array = [[NSMutableArray alloc] initWithCapacity:capitalsCount];
-
-  for (size_t i = 0; i < capitalsCount; ++i)
+  for (NSInteger i = 0; i < [self.capitals count]; ++i)
   {
-    NSString * pinId = [[[NSString alloc] initWithFormat:@"%ld", i] autorelease];
+    NSString * pinId = [[NSString alloc] initWithFormat:@"%i", i];
     // Note that url is empty - it means "More details" button for a pin in MapsWithMe will lead back to this example app
-    MWMPin * pin = [[[MWMPin alloc] initWithLat:CAPITALS[i].lat lon:CAPITALS[i].lon title:CAPITALS[i].name andId:pinId] autorelease];
+    NSDictionary * city = self.capitals[i];
+    MWMPin * pin = [[MWMPin alloc] initWithLat:[city[@"lat"] doubleValue] lon:[city[@"lon"] doubleValue] title:city[@"name"] andId:pinId];
     [array addObject:pin];
   }
-
+  // Your should hide any top view objects like UIPopoverController before calling +showPins:
+  // If user does not installed MapsWithMe app, a popup dialog will be shown
+  [self.detailViewController.masterPopoverController dismissPopoverAnimated:YES];
+  
   [MWMApi showPins:array];
-
-  [array release];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -59,7 +81,7 @@
   if (self)
   {
     self.title = NSLocalizedString(@"World Capitals", nil);
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
     {
       self.clearsSelectionOnViewWillAppear = NO;
       self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
@@ -68,17 +90,11 @@
   return self;
 }
 
-- (void)dealloc
-{
-  self.detailViewController = nil;
-  [super dealloc];
-}
-
 - (void)viewDidLoad
 {
   [super viewDidLoad];
 
-  UIBarButtonItem * showMapButton = [[[UIBarButtonItem alloc] initWithTitle:@"Show All" style:UIBarButtonItemStyleDone target:self action:@selector(showAllCitiesOnTheMap:)] autorelease];
+  UIBarButtonItem * showMapButton = [[UIBarButtonItem alloc] initWithTitle:@"Show All" style:UIBarButtonItemStyleDone target:self action:@selector(showAllCitiesOnTheMap:)];
   self.navigationItem.rightBarButtonItem = showMapButton;
 }
 
@@ -91,12 +107,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return sizeof(CAPITALS)/sizeof(CAPITALS[0]);
+  return [self.capitals count];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-  UILabel * label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, tableView.rowHeight)] autorelease];
+  UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, tableView.rowHeight)];
   label.text = [MWMApi isApiSupported] ? @"MapsWithMe is installed" : @"MapsWithMe is not installed";
   label.textAlignment = UITextAlignmentCenter;
   label.backgroundColor = [UIColor clearColor];
@@ -115,26 +131,21 @@
   UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil)
   {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId] autorelease];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   }
 
-  cell.textLabel.text = CAPITALS[indexPath.row].name;
+  cell.textLabel.text = self.capitals[indexPath.row][@"name"];
   return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    self.detailViewController.cityIndex = indexPath.row;
-  else
-  {
-    if (!self.detailViewController)
-      self.detailViewController = [[[CityDetailViewController alloc] initWithNibName:@"CityDetailViewController" bundle:nil] autorelease];
-    self.detailViewController.cityIndex = indexPath.row;
+  self.detailViewController.city = self.capitals[indexPath.row];
+  self.detailViewController.cityIndex = indexPath.row;
+  if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
     [self.navigationController pushViewController:self.detailViewController animated:YES];
-  }
 }
 
 @end

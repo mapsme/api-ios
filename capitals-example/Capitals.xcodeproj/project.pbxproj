@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		97F3580C185F5BB200DDF84D /* capitals.plist in Resources */ = {isa = PBXBuildFile; fileRef = 97F3580B185F5BB200DDF84D /* capitals.plist */; };
 		FA1792CE17784F000092B567 /* MapsWithMeAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1792CC17784F000092B567 /* MapsWithMeAPI.m */; };
 		FA776B4F17848A370023F7A0 /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA776B4D17848A370023F7A0 /* MasterViewController.xib */; };
 		FAA484EA178108970027B232 /* 114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = FAA484E2178108970027B232 /* 114x114.png */; };
@@ -26,12 +27,12 @@
 		FAD3DD63177221B500B0735B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAD3DD62177221B500B0735B /* Default@2x.png */; };
 		FAD3DD65177221B500B0735B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAD3DD64177221B500B0735B /* Default-568h@2x.png */; };
 		FAD3DD68177221B500B0735B /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD3DD67177221B500B0735B /* MasterViewController.m */; };
-		FAD3DD7F1772246600B0735B /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD3DD7E1772246600B0735B /* City.m */; };
 		FAD3DD8317724D4A00B0735B /* CityDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD3DD8117724D4A00B0735B /* CityDetailViewController.m */; };
 		FAD3DD8417724D4A00B0735B /* CityDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAD3DD8217724D4A00B0735B /* CityDetailViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		97F3580B185F5BB200DDF84D /* capitals.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = capitals.plist; sourceTree = "<group>"; };
 		FA1792CC17784F000092B567 /* MapsWithMeAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapsWithMeAPI.m; path = ../api/MapsWithMeAPI.m; sourceTree = "<group>"; };
 		FA1792CD17784F000092B567 /* MapsWithMeAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapsWithMeAPI.h; path = ../api/MapsWithMeAPI.h; sourceTree = "<group>"; };
 		FA776B4D17848A370023F7A0 /* MasterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MasterViewController.xib; sourceTree = "<group>"; };
@@ -57,8 +58,6 @@
 		FAD3DD64177221B500B0735B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		FAD3DD66177221B500B0735B /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		FAD3DD67177221B500B0735B /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		FAD3DD7D177223BB00B0735B /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
-		FAD3DD7E1772246600B0735B /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
 		FAD3DD8017724D4A00B0735B /* CityDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityDetailViewController.h; sourceTree = "<group>"; };
 		FAD3DD8117724D4A00B0735B /* CityDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityDetailViewController.m; sourceTree = "<group>"; };
 		FAD3DD8217724D4A00B0735B /* CityDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CityDetailViewController.xib; sourceTree = "<group>"; };
@@ -120,8 +119,6 @@
 			children = (
 				FAD3DD5D177221B500B0735B /* AppDelegate.h */,
 				FAD3DD5E177221B500B0735B /* AppDelegate.m */,
-				FAD3DD7D177223BB00B0735B /* City.h */,
-				FAD3DD7E1772246600B0735B /* City.m */,
 				FAD3DD8017724D4A00B0735B /* CityDetailViewController.h */,
 				FAD3DD8117724D4A00B0735B /* CityDetailViewController.m */,
 				FAD3DD8217724D4A00B0735B /* CityDetailViewController.xib */,
@@ -136,6 +133,7 @@
 		FAD3DD55177221B500B0735B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				97F3580B185F5BB200DDF84D /* capitals.plist */,
 				FAA484E2178108970027B232 /* 114x114.png */,
 				FAA484E3178108970027B232 /* 144x144.png */,
 				FAA484E4178108970027B232 /* 100x100.png */,
@@ -206,6 +204,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAD3DD61177221B500B0735B /* Default.png in Resources */,
+				97F3580C185F5BB200DDF84D /* capitals.plist in Resources */,
 				FAD3DD63177221B500B0735B /* Default@2x.png in Resources */,
 				FAD3DD65177221B500B0735B /* Default-568h@2x.png in Resources */,
 				FAD3DD8417724D4A00B0735B /* CityDetailViewController.xib in Resources */,
@@ -231,7 +230,6 @@
 				FAD3DD5B177221B500B0735B /* main.m in Sources */,
 				FAD3DD5F177221B500B0735B /* AppDelegate.m in Sources */,
 				FAD3DD68177221B500B0735B /* MasterViewController.m in Sources */,
-				FAD3DD7F1772246600B0735B /* City.m in Sources */,
 				FAD3DD8317724D4A00B0735B /* CityDetailViewController.m in Sources */,
 				FA1792CE17784F000092B567 /* MapsWithMeAPI.m in Sources */,
 			);
@@ -268,10 +266,11 @@
 		FA776B5217848EC50023F7A0 /* Production */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Capitals/Capitals-Prefix.pch";
 				INFOPLIST_FILE = "Capitals/Capitals-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "World Capitals";
 				WRAPPER_EXTENSION = app;
 			};
@@ -334,10 +333,11 @@
 		FAD3DD7B177221B500B0735B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Capitals/Capitals-Prefix.pch";
 				INFOPLIST_FILE = "Capitals/Capitals-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "World Capitals";
 				WRAPPER_EXTENSION = app;
 			};
@@ -346,10 +346,11 @@
 		FAD3DD7C177221B500B0735B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Capitals/Capitals-Prefix.pch";
 				INFOPLIST_FILE = "Capitals/Capitals-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "World Capitals";
 				WRAPPER_EXTENSION = app;
 			};
