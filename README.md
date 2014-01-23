@@ -33,6 +33,8 @@ First one contains .h and .m files which you need to include into your project. 
 If you want to get results of API calls, please add unique URL scheme to your app. You can do it with [XCode][linkAddUrlScheme] or by editing Info.plist file in your project. To make things simple, use *mapswithme* keyword in scheme ID, like *my_mapswithme_scheme*, and create an unique scheme name (or use your existing one).
 *mapswithme* keyword in scheme ID simply helps API code to detect it automatically. See more details in [Apple's documentation][linkAppleCustomUrlSchemes].
 
+Both MapsWithMe Lite and Pro support scheme "mapswithme://". If you want to use only Lite version change "mapswithme://" to "mapswithmelite://", and if you want to use Pro version change "mapswithme://" to "mapswithmepro://"
+
 *capitals-example* folder contains [sample application][linkSample] which demonstrates part of API features.
 
 *NOTE: If you are using Automatic References Counting (ARC) in your project, you can use [this solution][linkFixARC] or simply fix code by yourself.*
