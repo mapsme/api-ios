@@ -16,7 +16,8 @@ For API version 1 (supported by MapsWithMe 2.4+)
 
 In general it is possible to establish a one way or two way communication between MapsWithMe and your app.
 
-Please refer to the [sample application][linkSample] for a demo.
+Please refer to the [sample application][linkSample] for a demo or see
+our [travel guide apps][linkTravelGuides] as an API integration example.
 
 ### Prerequisites
 
@@ -187,3 +188,4 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 [linkAppleCustomUrlSchemes]: http://developer.apple.com/library/ios/#DOCUMENTATION/iPhone/Conceptual/iPhoneOSProgrammingGuide/AdvancedAppTricks/AdvancedAppTricks.html#//apple_ref/doc/uid/TP40007072-CH7-SW50 "Custom URL Scheme Apple documentation"
 [linkAppleDelegate]: http://developer.apple.com/library/ios/documentation/uikit/reference/UIApplicationDelegate_Protocol/Reference/Reference.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:openURL:sourceApplication:annotation: "AppDelegate Handle custom URL Schemes"
 [linkFixARC]: http://stackoverflow.com/a/6658549/1209392 "How to compile non-ARC code in ARC projects"
+[linkTravelGuides]: http://www.guidewithme.com "Offline Travel Guides"
