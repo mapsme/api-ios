@@ -1,6 +1,6 @@
 /*******************************************************************************
 
- Copyright (c) 2013, MapsWithMe GmbH
+ Copyright (c) 2014, MapsWithMe GmbH
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -70,7 +70,7 @@ static BOOL openUrlOnBalloonClick = NO;
 static NSString * mapsWithMeIsNotInstalledPage =
 @"<html>" \
 "<head>" \
-"<title>Please install MapsWithMe - offline maps of the World</title>" \
+"<title>Please install MAPS.ME - offline maps of the World</title>" \
 "<meta name='viewport' content='width=device-width, initial-scale=1.0'/>" \
 "<meta charset='UTF-8'/>" \
 "<style type='text/css'>" \
@@ -84,16 +84,16 @@ static NSString * mapsWithMeIsNotInstalledPage =
 "</style>" \
 "</head>" \
 "<body>" \
-"<div class='description'>Offline maps are required to proceed. We have partnered with <a href='http://mapswith.me' target='_blank' class='mwm'>MapsWithMe</a> to provide you with offline maps of the entire world.</div>" \
+"<div class='description'>Offline maps are required to proceed. We have partnered with <a href='http://mapswith.me' target='_blank' class='mwm'>MAPS.ME</a> to provide you with offline maps of the entire world.</div>" \
 "<div class='description'>To continue please download the app:</div>" \
-"<a href='http://mapswith.me/get?api' class='pro button shadow'>Download&nbsp;MapsWithMe&nbsp;Pro</a>" \
-"<a href='http://mapswith.me/app?api' class='lite button shadow'>Download&nbsp;MapsWithMe&nbsp;Lite&nbsp;(free)</a>" \
+"<a href='http://mapswith.me/get?api' class='pro button shadow'>Download&nbsp;MAPS.ME&nbsp;Pro</a>" \
+"<a href='http://mapswith.me/app?api' class='lite button shadow'>Download&nbsp;MAPS.ME&nbsp;Lite&nbsp;(free)</a>" \
 "</body>" \
 "</html>";
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-  [(UIWebView *)self.view loadHTMLString:mapsWithMeIsNotInstalledPage baseURL:[NSURL URLWithString:@"http://mapswith.me/"]];
+  [(UIWebView *)self.view loadHTMLString:mapsWithMeIsNotInstalledPage baseURL:[NSURL URLWithString:@"http://maps.me/"]];
 }
 
 - (void)onCloseButtonClicked:(id)sender
@@ -236,11 +236,11 @@ static NSString * mapsWithMeIsNotInstalledPage =
 {
   UIWebView * webView = [[UIWebView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
   // check that we have Internet connection and display fresh online page if possible
-  [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://mapswith.me/api_mwm_not_installed"]]];
+  [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://maps.me/api_mwm_not_installed"]]];
   MWMNViewController * webController = [[MWMNViewController alloc] init];
   webView.delegate = webController;
   webController.view = webView;
-  webController.title = @"Install MapsWithMe";
+  webController.title = @"Install MAPS.ME";
   UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:webController];
   navController.navigationBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:webController action:@selector(onCloseButtonClicked:)];
 

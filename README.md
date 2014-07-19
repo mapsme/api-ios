@@ -1,8 +1,8 @@
-## MapsWithMe iOS API: Getting Started
+## MAPS.ME iOS API: Getting Started
 
 ### Introduction
 
-MapsWithMe offline maps API for iOS (hereinafter referred to as *API*) provides an interface for other applications to perform the following tasks:
+MAPS.ME (MapsWithMe) offline maps API for iOS (hereinafter referred to as *API*) provides an interface for other applications to perform the following tasks:
 
 For API version 1 (supported by MapsWithMe 2.4+)
 * Open [MapsWithMe Application][linkMwm]
@@ -178,14 +178,14 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-[linkMwm]: http://mapswith.me/ "MapsWithMe - offline Maps of the World"
+[linkMwm]: http://maps.me/ "MAPS.ME (MapsWithMe) - offline Maps of the World"
 [linkSample]: https://itunes.apple.com/app/id670496494?mt=8 "Sample Application"
 [linkRepo]: https://github.com/mapswithme/api-ios/ "GitHub Repository"
 [linkAddUrlScheme]: https://raw.github.com/mapswithme/api-ios/site-resources/add_custom_url_scheme.png "How to add url scheme in XCode"
-[linkDownloadMWMDialog]: https://raw.github.com/mapswithme/api-ios/site-resources/download_mwm_dialog.png "Donwload MapsWithMe Dialog"
+[linkDownloadMWMDialog]: https://raw.github.com/mapswithme/api-ios/site-resources/download_mwm_dialog.png "Donwload MAPS.ME Dialog"
 [linkIssues]: https://github.com/mapswithme/api-ios/issues/ "Post a bug or feature request"
-[linkSupport]: mailto:api@mapswith.me "MapsWithMe Support Contact"
+[linkSupport]: mailto:api@mapswith.me "MAPS.ME Support Contact"
 [linkAppleCustomUrlSchemes]: http://developer.apple.com/library/ios/#DOCUMENTATION/iPhone/Conceptual/iPhoneOSProgrammingGuide/AdvancedAppTricks/AdvancedAppTricks.html#//apple_ref/doc/uid/TP40007072-CH7-SW50 "Custom URL Scheme Apple documentation"
 [linkAppleDelegate]: http://developer.apple.com/library/ios/documentation/uikit/reference/UIApplicationDelegate_Protocol/Reference/Reference.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:openURL:sourceApplication:annotation: "AppDelegate Handle custom URL Schemes"
 [linkFixARC]: http://stackoverflow.com/a/6658549/1209392 "How to compile non-ARC code in ARC projects"
-[linkTravelGuides]: http://www.guidewithme.com "Offline Travel Guides"
+[linkTravelGuides]: http://guidewithme.com "Offline Travel Guides"
