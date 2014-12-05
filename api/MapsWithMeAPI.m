@@ -78,16 +78,14 @@ static NSString * mapsWithMeIsNotInstalledPage =
 ".description { text-align: center; font-size: 0.85em; margin-bottom: 1em; }" \
 ".button { -moz-border-radius: 20px; -webkit-border-radius: 20px; -khtml-border-radius: 20px; border-radius: 20px; padding: 10px; text-decoration: none; display:inline-block; margin: 0.5em; }" \
 ".shadow { -moz-box-shadow: 3px 3px 5px 0 #444; -webkit-box-shadow: 3px 3px 5px 0 #444; box-shadow: 3px 3px 5px 0 #444; }" \
-".lite { color: white; background-color: #333; }" \
 ".pro  { color: white; background-color: green; }" \
 ".mwm { color: green; text-decoration: none; }" \
 "</style>" \
 "</head>" \
 "<body>" \
-"<div class='description'>Offline maps are required to proceed. We have partnered with <a href='http://mapswith.me' target='_blank' class='mwm'>MAPS.ME</a> to provide you with offline maps of the entire world.</div>" \
+"<div class='description'>Offline maps are required to proceed. We have partnered with <a href='http://maps.me' target='_blank' class='mwm'>MAPS.ME</a> to provide you with offline maps of the entire world.</div>" \
 "<div class='description'>To continue please download the app:</div>" \
-"<a href='http://mapswith.me/get?api' class='pro button shadow'>Download&nbsp;MAPS.ME&nbsp;Pro</a>" \
-"<a href='http://mapswith.me/app?api' class='lite button shadow'>Download&nbsp;MAPS.ME&nbsp;Lite&nbsp;(free)</a>" \
+"<a href='http://mapswith.me/get?api' class='pro button shadow'>Download&nbsp;MAPS.ME</a>" \
 "</body>" \
 "</html>";
 

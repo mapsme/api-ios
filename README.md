@@ -34,7 +34,7 @@ First one contains .h and .m files which you need to include into your project. 
 If you want to get results of API calls, please add unique URL scheme to your app. You can do it with [XCode][linkAddUrlScheme] or by editing Info.plist file in your project. To make things simple, use *mapswithme* keyword in scheme ID, like *my_mapswithme_scheme*, and create an unique scheme name (or use your existing one).
 *mapswithme* keyword in scheme ID simply helps API code to detect it automatically. See more details in [Apple's documentation][linkAppleCustomUrlSchemes].
 
-Both MapsWithMe Lite and Pro support scheme "mapswithme://". If you want to use only Lite version change "mapswithme://" to "mapswithmelite://", and if you want to use Pro version change "mapswithme://" to "mapswithmepro://"
+MAPS.ME (MapsWithMe) supports two schemes: "mapswithme://" and "mapswithmepro://"
 
 *capitals-example* folder contains [sample application][linkSample] which demonstrates part of API features.
 
@@ -184,7 +184,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 [linkAddUrlScheme]: https://raw.github.com/mapswithme/api-ios/site-resources/add_custom_url_scheme.png "How to add url scheme in XCode"
 [linkDownloadMWMDialog]: https://raw.github.com/mapswithme/api-ios/site-resources/download_mwm_dialog.png "Donwload MAPS.ME Dialog"
 [linkIssues]: https://github.com/mapswithme/api-ios/issues/ "Post a bug or feature request"
-[linkSupport]: mailto:api@mapswith.me "MAPS.ME Support Contact"
+[linkSupport]: mailto:api@maps.me "MAPS.ME Support Contact"
 [linkAppleCustomUrlSchemes]: http://developer.apple.com/library/ios/#DOCUMENTATION/iPhone/Conceptual/iPhoneOSProgrammingGuide/AdvancedAppTricks/AdvancedAppTricks.html#//apple_ref/doc/uid/TP40007072-CH7-SW50 "Custom URL Scheme Apple documentation"
 [linkAppleDelegate]: http://developer.apple.com/library/ios/documentation/uikit/reference/UIApplicationDelegate_Protocol/Reference/Reference.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:openURL:sourceApplication:annotation: "AppDelegate Handle custom URL Schemes"
 [linkFixARC]: http://stackoverflow.com/a/6658549/1209392 "How to compile non-ARC code in ARC projects"
