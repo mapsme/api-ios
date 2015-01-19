@@ -16,8 +16,7 @@ For API version 1 (supported by MapsWithMe 2.4+)
 
 In general it is possible to establish a one way or two way communication between MapsWithMe and your app.
 
-Please refer to the [sample application][linkSample] for a demo or see
-our [travel guide apps][linkTravelGuides] as an API integration example.
+Please check our [offline travel guide apps][linkTravelGuides] as an API integration example.
 
 ### Prerequisites
 
@@ -36,7 +35,7 @@ If you want to get results of API calls, please add unique URL scheme to your ap
 
 MAPS.ME (MapsWithMe) supports two schemes: "mapswithme://" and "mapswithmepro://"
 
-*capitals-example* folder contains [sample application][linkSample] which demonstrates part of API features.
+*capitals-example* folder contains sample application which demonstrates part of API features.
 
 *NOTE: If you are using Automatic References Counting (ARC) in your project, you can use [this solution][linkFixARC] or simply fix code by yourself.*
 
@@ -135,13 +134,11 @@ Alternatively, you can do nothing and use built-in dialog which will offer users
 
     + (void)setOpenUrlOnBalloonClick:(BOOL)value;
 
-### [Sample Code][linkSample]
-
 ### Support
 
 Have a bug or feature request? [Please open a new issue][linkIssues].
 
-If you have any questions, suggestions or feedbacks, please drop us a line to [api@mapswith.me][linkSupport].
+If you have any questions, suggestions or feedbacks, please drop us a line to [api@maps.me][linkSupport].
 
 ### Under the hood
 
@@ -156,7 +153,7 @@ Applications "talk" to each other using URL Scheme. API v1 supports the followin
 * **n** - pin title
 * **id** - any string you want to receive back in your app, OR alternatively, any valid URL which will be opened on *More Info* button click
 * **backurl** - usually, your unique app scheme to open back your app
-* **appname** - string to display in navigation bar on top of the map in MapsWithMe
+* **appname** - string to display in navigation bar on top of the map in MAPS.ME
 * **balloonAction** - pass openUrlOnBalloonClick as a parameter, if you want to open pin url on balloon click(Usually pin url opens when "Show more info" button is pressed). (Available in 2.4.5)
 
 Note that you can display as many pins as you want, the only rule is that **ll** parameter comes before **n** and **id** for each point. 
@@ -168,7 +165,7 @@ When user selects a pin, your app is called like this:
 ------------------------------------------------------------------------------------------
 ### API Code is licensed under the BSD 2-Clause License
 
-Copyright (c) 2013, MapsWithMe GmbH
+Copyright (c) 2015, My.com
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -179,7 +176,6 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 [linkMwm]: http://maps.me/ "MAPS.ME (MapsWithMe) - offline Maps of the World"
-[linkSample]: https://itunes.apple.com/app/id670496494?mt=8 "Sample Application"
 [linkRepo]: https://github.com/mapswithme/api-ios/ "GitHub Repository"
 [linkAddUrlScheme]: https://raw.github.com/mapswithme/api-ios/site-resources/add_custom_url_scheme.png "How to add url scheme in XCode"
 [linkDownloadMWMDialog]: https://raw.github.com/mapswithme/api-ios/site-resources/download_mwm_dialog.png "Donwload MAPS.ME Dialog"
