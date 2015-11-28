@@ -35,6 +35,8 @@ If you want to get results of API calls, please add unique URL scheme to your ap
 
 MAPS.ME (MapsWithMe) supports two schemes: "mapswithme://" and "mapswithmepro://"
 
+iOS9+ note: you need to add LSApplicationQueriesSchemes key into your plist with value mapswithme to correctly query if MAPS.ME is installed.
+
 *capitals-example* folder contains sample application which demonstrates part of API features.
 
 *NOTE: If you are using Automatic References Counting (ARC) in your project, you can use [this solution][linkFixARC] or simply fix code by yourself.*
