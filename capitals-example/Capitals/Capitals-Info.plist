@@ -18,7 +18,7 @@
 		<string>29x29.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.mapswithme.api.example.Capitals</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
