@@ -33,5 +33,6 @@
 @interface MasterViewController : UITableViewController
 
 @property (strong, nonatomic) CityDetailViewController * detailViewController;
+@property (strong, nonatomic) NSArray * capitals;
 
 @end

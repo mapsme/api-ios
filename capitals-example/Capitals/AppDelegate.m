@@ -51,6 +51,7 @@
         MasterViewController * masterVC = self.navigationController.viewControllers[0];
         if (!masterVC.detailViewController)
           masterVC.detailViewController = [[CityDetailViewController alloc] initWithNibName:@"CityDetailViewController" bundle:nil];
+        masterVC.detailViewController.city = masterVC.capitals[cityId];
         masterVC.detailViewController.cityIndex = cityId;
         [masterVC.navigationController pushViewController:masterVC.detailViewController animated:YES];
       }

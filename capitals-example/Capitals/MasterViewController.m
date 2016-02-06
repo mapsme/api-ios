@@ -31,12 +31,6 @@
 
 #import "MapsWithMeAPI.h"
 
-@interface MasterViewController ()
-
-@property (strong, nonatomic) NSArray * capitals;
-
-@end
-
 @implementation MasterViewController
 
 - (CityDetailViewController *)detailViewController
