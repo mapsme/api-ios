@@ -46,8 +46,8 @@ static BOOL kOpenUrlOnBalloonClick = NO;
   return self;
 }
 
-- (nullable instancetype)initWithLat:(CGFloat)lat
-                                 lon:(CGFloat)lon
+- (nullable instancetype)initWithLat:(double)lat
+                                 lon:(double)lon
                                title:(nullable NSString *)title
                              idOrUrl:(nullable NSString *)idOrUrl
 {
@@ -169,7 +169,7 @@ static NSString * const mapsWithMeIsNotInstalledPage =
   return [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[kMWMUrlScheme stringByAppendingFormat:@"map?v=%f", MAPSWITHME_API_VERSION]]];
 }
 
-+ (BOOL)showLat:(CGFloat)lat lon:(CGFloat)lon title:(nullable NSString *)title idOrUrl:(nullable NSString *)idOrUrl
++ (BOOL)showLat:(double)lat lon:(double)lon title:(nullable NSString *)title idOrUrl:(nullable NSString *)idOrUrl
 {
   MWMPin * pin = [[MWMPin alloc] initWithLat:lat lon:lon title:title idOrUrl:idOrUrl];
   return [MWMApi showPin:pin];
