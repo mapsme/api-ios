@@ -30,29 +30,34 @@
 
 #define MAPSWITHME_API_VERSION 1.1
 
-static NSString * MWMUrlScheme = @"mapswithme://";
-static BOOL openUrlOnBalloonClick = NO;
+static NSString * const kMWMUrlScheme = @"mapswithme://";
+static BOOL kOpenUrlOnBalloonClick = NO;
 
 @implementation MWMPin
 
-- (id)init
+- (nullable instancetype)init
 {
-  if ((self = [super init]))
+  self = [super init];
+  if (self)
   {
-    self.lat = INFINITY;
-    self.lon = INFINITY;
+    _lat = INFINITY;
+    _lon = INFINITY;
   }
   return self;
 }
 
-- (id)initWithLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl
+- (nullable instancetype)initWithLat:(CGFloat)lat
+                                 lon:(CGFloat)lon
+                               title:(nullable NSString *)title
+                             idOrUrl:(nullable NSString *)idOrUrl
 {
-  if ((self = [super init]))
+  self = [super init];
+  if (self)
   {
-    self.lat = lat;
-    self.lon = lon;
-    self.title = title;
-    self.idOrUrl = idOrUrl;
+    _lat = lat;
+    _lon = lon;
+    _title = title;
+    _idOrUrl = idOrUrl;
   }
   return self;
 }
@@ -67,7 +72,7 @@ static BOOL openUrlOnBalloonClick = NO;
 @implementation MWMNViewController
 
 // HTML page for users who didn't install MapsWithMe
-static NSString * mapsWithMeIsNotInstalledPage =
+static NSString * const mapsWithMeIsNotInstalledPage =
 @"<html>" \
 "<head>" \
 "<title>Please install MAPS.ME - offline maps of the World</title>" \
@@ -109,13 +114,13 @@ static NSString * mapsWithMeIsNotInstalledPage =
   return (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)str, NULL, CFSTR("!$&'()*+,-./:;=?@_~"), kCFStringEncodingUTF8);
 }
 
-+ (BOOL)isMapsWithMeUrl:(NSURL *)url
++ (BOOL)isMapsWithMeUrl:(nonnull NSURL *)url
 {
   NSString * appScheme = [MWMApi detectBackUrlScheme];
   return appScheme && [url.scheme isEqualToString:appScheme];
 }
 
-+ (MWMPin *)pinFromUrl:(NSURL *)url
++ (nullable MWMPin *)pinFromUrl:(nonnull NSURL *)url
 {
   if (![MWMApi isMapsWithMeUrl:url])
     return nil;
@@ -126,13 +131,13 @@ static NSString * mapsWithMeIsNotInstalledPage =
     pin = [[MWMPin alloc] init];
     for (NSString * param in [url.query componentsSeparatedByString:@"&"])
     {
-      NSArray * values = [param componentsSeparatedByString:@"="];
+      NSArray<NSString *> * values = [param componentsSeparatedByString:@"="];
       if ([values count] == 2)
       {
         NSString * key = values[0];
         if ([key isEqualToString:@"ll"])
         {
-          NSArray * coords = [values[1] componentsSeparatedByString:@","];
+          NSArray<NSString *> * coords = [values[1] componentsSeparatedByString:@","];
           if ([coords count] == 2)
           {
             pin.lat = [[NSDecimalNumber decimalNumberWithString:coords[0]] doubleValue];
@@ -156,26 +161,26 @@ static NSString * mapsWithMeIsNotInstalledPage =
 
 + (BOOL)isApiSupported
 {
-  return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:MWMUrlScheme]];
+  return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:kMWMUrlScheme]];
 }
 
 + (BOOL)showMap
 {
-  return [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[MWMUrlScheme stringByAppendingFormat:@"map?v=%f", MAPSWITHME_API_VERSION]]];
+  return [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[kMWMUrlScheme stringByAppendingFormat:@"map?v=%f", MAPSWITHME_API_VERSION]]];
 }
 
-+ (BOOL)showLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl
++ (BOOL)showLat:(CGFloat)lat lon:(CGFloat)lon title:(nullable NSString *)title idOrUrl:(nullable NSString *)idOrUrl
 {
-  MWMPin * pin = [[MWMPin alloc] initWithLat:lat lon:lon title:title andId:idOrUrl];
+  MWMPin * pin = [[MWMPin alloc] initWithLat:lat lon:lon title:title idOrUrl:idOrUrl];
   return [MWMApi showPin:pin];
 }
 
-+ (BOOL)showPin:(MWMPin *)pin
++ (BOOL)showPin:(nullable MWMPin *)pin
 {
-  return [MWMApi showPins:@[pin]];
+  return pin ? [MWMApi showPins:@[pin]] : NO;
 }
 
-+ (BOOL)showPins:(NSArray *)pins
++ (BOOL)showPins:(nonnull NSArray<MWMPin *> *)pins
 {
   // Automatic check that MapsWithMe is installed
   if (![MWMApi isApiSupported])
@@ -186,10 +191,13 @@ static NSString * mapsWithMeIsNotInstalledPage =
   }
 
   NSString * appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
-  NSMutableString * str = [[NSMutableString alloc] initWithFormat:@"%@map?v=%f&appname=%@&", MWMUrlScheme, MAPSWITHME_API_VERSION,
-                           [self urlEncode:appName]];
+  NSMutableString * str = [NSMutableString stringWithFormat:@"%@map?v=%f&appname=%@&",
+                                                                   kMWMUrlScheme,
+                                                                   MAPSWITHME_API_VERSION,
+                                                                   [self urlEncode:appName]];
 
   NSString * backUrlScheme = [MWMApi detectBackUrlScheme];
+
   if (backUrlScheme)
     [str appendFormat:@"backurl=%@&", [self urlEncode:backUrlScheme]];
 
@@ -205,8 +213,8 @@ static NSString * mapsWithMeIsNotInstalledPage =
     }
   }
 
-  if (openUrlOnBalloonClick)
-    [str appendString:@"&balloonAction=openUrlOnBalloonClick"];
+  if (kOpenUrlOnBalloonClick)
+    [str appendString:@"&balloonAction=kOpenUrlOnBalloonClick"];
 
   NSURL * url = [NSURL URLWithString:str];
   BOOL const result = [[UIApplication sharedApplication] openURL:url];
@@ -243,12 +251,12 @@ static NSString * mapsWithMeIsNotInstalledPage =
   navController.navigationBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:webController action:@selector(onCloseButtonClicked:)];
 
   UIWindow * window = [[UIApplication sharedApplication].windows firstObject];
-  [window.rootViewController presentModalViewController:navController animated:YES];
+  [window.rootViewController presentViewController:navController animated:YES completion:nil];
 }
 
 + (void)setOpenUrlOnBalloonClick:(BOOL)value
 {
-  openUrlOnBalloonClick = value;
+  kOpenUrlOnBalloonClick = value;
 }
 
 @end

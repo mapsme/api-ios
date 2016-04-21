@@ -52,14 +52,14 @@
 
 - (void)showAllCitiesOnTheMap:(id)sender
 {
-  NSMutableArray * array = [[NSMutableArray alloc] initWithCapacity:[self.capitals count]];
+  NSMutableArray<MWMPin *> * array = [[NSMutableArray alloc] initWithCapacity:[self.capitals count]];
 
   for (NSInteger i = 0; i < [self.capitals count]; ++i)
   {
-    NSString * pinId = [[NSString alloc] initWithFormat:@"%i", i];
+    NSString * pinId = [NSString stringWithFormat:@"%@", @(i)];
     // Note that url is empty - it means "More details" button for a pin in MapsWithMe will lead back to this example app
     NSDictionary * city = self.capitals[i];
-    MWMPin * pin = [[MWMPin alloc] initWithLat:[city[@"lat"] doubleValue] lon:[city[@"lon"] doubleValue] title:city[@"name"] andId:pinId];
+    MWMPin * pin = [[MWMPin alloc] initWithLat:[city[@"lat"] doubleValue] lon:[city[@"lon"] doubleValue] title:city[@"name"] idOrUrl:pinId];
     [array addObject:pin];
   }
   // Your should hide any top view objects like UIPopoverController before calling +showPins:
@@ -78,7 +78,7 @@
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
     {
       self.clearsSelectionOnViewWillAppear = NO;
-      self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
+      self.preferredContentSize = CGSizeMake(320.0, 600.0);
     }
   }
   return self;
@@ -108,7 +108,7 @@
 {
   UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 240, tableView.rowHeight)];
   label.text = [MWMApi isApiSupported] ? @"MapsWithMe is installed" : @"MapsWithMe is not installed";
-  label.textAlignment = UITextAlignmentCenter;
+  label.textAlignment = NSTextAlignmentCenter;
   label.backgroundColor = [UIColor clearColor];
   return label;
 }

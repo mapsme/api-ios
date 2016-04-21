@@ -28,22 +28,26 @@
 
 #import <Foundation/Foundation.h>
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_5_0
-  #error "MapsWithMe supports iOS >= 5.0 only"
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
+  #error "maps.me supports iOS >= 7.0 only"
 #endif
 
 // Wrapper for a pin on a map
 @interface MWMPin : NSObject
 /// [required] pin latitude
-@property (nonatomic, assign) double lat;
+@property (nonatomic) CGFloat lat;
 /// [required] pin longitude
-@property (nonatomic, assign) double lon;
+@property (nonatomic) CGFloat lon;
 /// [optional] pin title
-@property (nonatomic, retain) NSString * title;
+@property (nullable, copy, nonatomic) NSString * title;
 /// [optional] passed back to the app when pin is clicked, OR, if it's a valid url,
 /// it will be opened from MapsWithMe after selecting "More Details..." for the pin
-@property (nonatomic, retain) NSString * idOrUrl;
-- (id)initWithLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl;
+@property (nullable, copy, nonatomic) NSString * idOrUrl;
+
+- (nullable instancetype)initWithLat:(CGFloat)lat
+                                 lon:(CGFloat)lon
+                               title:(nullable NSString *)title
+                             idOrUrl:(nullable NSString *)idOrUrl;
 
 @end
 
@@ -52,20 +56,20 @@
 @interface MWMApi : NSObject
 
 /// returns YES if url is received from MapsWithMe and can be parsed
-+ (BOOL)isMapsWithMeUrl:(NSURL *)url;
++ (BOOL)isMapsWithMeUrl:(nonnull NSURL *)url;
 /// returns nil if user didn't select any pin and simply pressed "Back" button
-+ (MWMPin *)pinFromUrl:(NSURL *)url;
++ (nullable MWMPin *)pinFromUrl:(nonnull NSURL *)url;
 /// returns NO if MapsWithMe is not installed or outdated version doesn't support API calls
 + (BOOL)isApiSupported;
 /// Simply opens MapsWithMe app
 + (BOOL)showMap;
 /// Displays given point on a map, title and id are optional.
 /// If id contains valid url, it will be opened from MapsWithMe after selecting "More Details..." for the pin
-+ (BOOL)showLat:(double)lat lon:(double)lon title:(NSString *)title andId:(NSString *)idOrUrl;
++ (BOOL)showLat:(CGFloat)lat lon:(CGFloat)lon title:(nullable NSString *)title idOrUrl:(nullable NSString *)idOrUrl;
 /// The same as above but using pin wrapper
-+ (BOOL)showPin:(MWMPin *)pin;
++ (BOOL)showPin:(nullable MWMPin *)pin;
 /// Displays any number of pins
-+ (BOOL)showPins:(NSArray *)pins;
++ (BOOL)showPins:(nonnull NSArray<MWMPin *> *)pins;
 //
 + (void)showMapsWithMeIsNotInstalledDialog;
 /// Set value = YES if you want to open pin URL on balloon click, default value is NO

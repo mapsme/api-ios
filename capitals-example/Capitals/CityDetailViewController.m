@@ -50,8 +50,8 @@
   if (withLink)
     pinId = [NSString stringWithFormat:@"http://en.wikipedia.org/wiki/%@", [self urlEncode:self.city[@"name"]]];
   else
-    pinId = [NSString stringWithFormat:@"%i", _cityIndex];
-  [MWMApi showLat:[self.city[@"lat"] doubleValue] lon:[self.city[@"lon"] doubleValue] title:self.city[@"name"] andId:pinId];
+    pinId = [NSString stringWithFormat:@"%@", @(_cityIndex)];
+  [MWMApi showLat:[self.city[@"lat"] doubleValue] lon:[self.city[@"lon"] doubleValue] title:self.city[@"name"] idOrUrl:pinId];
 }
 
 - (void)setCityIndex:(NSInteger)newCityIndex
@@ -93,7 +93,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  NSString * cellId = [NSString stringWithFormat:@"%d%d", indexPath.section, indexPath.row];
+  NSString * cellId = [NSString stringWithFormat:@"%@%@", @(indexPath.section), @(indexPath.row)];
   UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil)
   {
@@ -114,7 +114,7 @@
     else
     {
       cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-      cell.textLabel.textAlignment = UITextAlignmentCenter;
+      cell.textLabel.textAlignment = NSTextAlignmentCenter;
       if (indexPath.section == 1)
         cell.textLabel.text = @"Show map and come back";
       else

@@ -270,7 +270,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Capitals/Capitals-Prefix.pch";
 				INFOPLIST_FILE = "Capitals/Capitals-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapswithme.api.example.Capitals;
 				PRODUCT_NAME = "World Capitals";
 				WRAPPER_EXTENSION = app;
@@ -339,7 +339,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Capitals/Capitals-Prefix.pch";
 				INFOPLIST_FILE = "Capitals/Capitals-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapswithme.api.example.Capitals;
 				PRODUCT_NAME = "World Capitals";
 				WRAPPER_EXTENSION = app;
@@ -353,7 +353,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Capitals/Capitals-Prefix.pch";
 				INFOPLIST_FILE = "Capitals/Capitals-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapswithme.api.example.Capitals;
 				PRODUCT_NAME = "World Capitals";
 				WRAPPER_EXTENSION = app;
