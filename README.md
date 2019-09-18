@@ -136,12 +136,6 @@ Alternatively, you can do nothing and use built-in dialog which will offer users
 
     + (void)setOpenUrlOnBalloonClick:(BOOL)value;
 
-### Support
-
-Have a bug or feature request? [Please open a new issue][linkIssues].
-
-If you have any questions, suggestions or feedbacks, please drop us a line to [api@maps.me][linkSupport].
-
 ### Under the hood
 
 If you prefer to use API on your own, here are some details about the implementation.
@@ -167,7 +161,7 @@ When user selects a pin, your app is called like this:
 ------------------------------------------------------------------------------------------
 ### API Code is licensed under the BSD 2-Clause License
 
-Copyright (c) 2015, My.com
+Copyright (c) 2019, MY.COM B.V.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -177,12 +171,11 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-[linkMwm]: http://maps.me/ "MAPS.ME (MapsWithMe) - offline Maps of the World"
+[linkMwm]: https://maps.me/ "MAPS.ME - offline maps of the world"
 [linkRepo]: https://github.com/mapsme/api-ios "GitHub Repository"
 [linkAddUrlScheme]: https://raw.github.com/mapswithme/api-ios/site-resources/add_custom_url_scheme.png "How to add url scheme in XCode"
 [linkDownloadMWMDialog]: https://raw.github.com/mapswithme/api-ios/site-resources/download_mwm_dialog.png "Donwload MAPS.ME Dialog"
 [linkIssues]: https://github.com/mapsme/api-ios/issues "Post a bug or feature request"
-[linkSupport]: mailto:api@maps.me "MAPS.ME Support Contact"
 [linkAppleCustomUrlSchemes]: https://developer.apple.com/library/ios/#DOCUMENTATION/iPhone/Conceptual/iPhoneOSProgrammingGuide/AdvancedAppTricks/AdvancedAppTricks.html#//apple_ref/doc/uid/TP40007072-CH7-SW50 "Custom URL Scheme Apple documentation"
 [linkAppleDelegate]: https://developer.apple.com/library/ios/documentation/uikit/reference/UIApplicationDelegate_Protocol/Reference/Reference.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:openURL:sourceApplication:annotation: "AppDelegate Handle custom URL Schemes"
 [linkFixARC]: http://stackoverflow.com/a/6658549/1209392 "How to compile non-ARC code in ARC projects"
